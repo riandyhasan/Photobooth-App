@@ -4,13 +4,15 @@
   "main": "./src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-packager . milio --platform=win32 --arch=x64"
   },
   "repository": "git@github.com:riandyhasan/Photobooth-App.git",
   "author": "riandyhasan <riandyhsn@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^27.0.0"
+    "electron": "^27.0.0",
+    "electron-packager": "^17.1.2"
   },
   "dependencies": {
     "html5-qrcode": "^2.3.8",

@@ -131,3 +131,6 @@ dist
 
 # Mac
 .DS_Store
+
+.exports
+milio-win32-x64

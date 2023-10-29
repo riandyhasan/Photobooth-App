@@ -1,20 +1,25 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, screen } = require("electron");
 const path = require("path");
 
 let mainWindow;
 
 function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
+    autoHideMenuBar: true,
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
   });
 
-  mainWindow.loadFile(__dirname + "/index.html");
+  mainWindow.loadFile(__dirname + "/pages/scan/index.html");
+  mainWindow.setMenuBarVisibility(false);
   mainWindow.on("closed", () => (mainWindow = null));
+  //   mainWindow.maximize();
 }
 
 app.whenReady().then(createWindow);
