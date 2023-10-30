@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Milio | Payment</title>
+      <link rel="stylesheet" href="index.css">
+   </head>
+   <body>
+      <img src="../../assets/images/top.svg" class="top-asset" />
+      <div class="layout">
+         <div class="content">
+            <!-- Slideshow container -->
+            <div class="slideshow-container">
+               <!-- Full-width images with number and caption text -->
+               <div class="mySlides fade">
+                <div class="numbertext">
+                  <div class="active-number">
+                    1
+                  </div>
+                  <div class="non-active-number">
+                    2
+                  </div>
+                  <div class="non-active-number">
+                    3
+                  </div>
+                </div>
+                  <img src="../../assets/images/example.png" style="width:100%">
+               </div>
+               <div class="mySlides fade">
+                  <div class="numbertext">
+                    <div class="non-active-number">
+                      1
+                    </div>
+                    <div class="active-number">
+                      2
+                    </div>
+                    <div class="non-active-number">
+                      3
+                    </div>
+                  </div>
+                  <img src="../../assets/images/example2.png" style="width:100%">
+               </div>
+               <div class="mySlides fade">
+                <div class="numbertext">
+                  <div class="non-active-number">
+                    1
+                  </div>
+                  <div class="non-active-number">
+                    2
+                  </div>
+                  <div class="active-number">
+                    3
+                  </div>
+                </div>
+                  <img src="../../assets/images/example3.png" style="width:100%">
+               </div>
+            </div>
+            <!-- Next and previous buttons -->
+            <a class="next" onclick="plusSlides(1)">
+              <img src="../../assets/images/next.svg" alt="next" />
+            </a>
+         </div>
+         <div class="payment-container">
+            <h2>Hi, Pandika</h2>
+            <div class="payment-row">
+              <div>Total Print</div>
+              <div>8 Pax</div>
+            </div>
+            <div class="line"></div>
+            <div class="payment-row">
+              <div>Subtotal</div>
+              <div>Rp560.000</div>
+            </div>
+            <div class="payment-row">
+              <div>Voucher Disc</div>
+              <div>- Rp30.000</div>
+            </div>
+            <div class="line"></div>
+            <div class="payment-row">
+              <div><b>Total</b></div>
+              <div><b>Rp530.000</b></div>
+            </div>
+            <div class="payment-row">
+              <div class="coupon">
+                <input type="text" name="coupon" id="coupon" placeholder="Coupon" />
+                <button>Apply</button>
+              </div>
+              <div>- Rp450.000</div>
+            </div>
+            <div class="special-price">
+              <div class="price-text">Special Price</div>
+              <div class="price">Rp80.000</div>
+            </div>
+            <div class="buttons">
+              <div class="cancel" id="cancel">
+                <img src="../../assets/images/cancel.svg" class="cancel-icon">
+                <div>Cancel</div>
+              </div>
+              <div class="print">
+                <img src="../../assets/images/print.svg" class="print-icon">
+                <div>Print</div>
+              </div>
+            </div>
+         </div>
+      </div>
+      <div>
+      </div>
+      <img src="../../assets/images/bottom.svg" class="bottom-asset" />
+      <script src="index.js"></script>
+   </body>
+</html>

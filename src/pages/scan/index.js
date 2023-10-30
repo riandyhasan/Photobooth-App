@@ -7,6 +7,7 @@ scanner.render(onScanSuccess, onScanFailure);
 
 function onScanSuccess(decodedText, decodedResult) {
   console.log(decodedText);
+  window.location.href = "../payment/index.html";
 
   // You can choose to stop scanning after a successful scan
   // scanner.clear();

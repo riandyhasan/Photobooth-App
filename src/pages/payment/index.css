@@ -1,0 +1,337 @@
+@font-face {
+    font-family: 'Gothic';
+    src: url('../../assets/fonts/GOTHIC.TTF');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gothic';
+    src: url('../../assets/fonts/GOTHICB.TTF');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gothic';
+    src: url('../../assets/fonts/GOTHICBI.TTF');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Gothic';
+    src: url('../../assets/fonts/GOTHICI.TTF');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Silverstone';
+    src: url('../../assets/fonts/Silverstone-Sans.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SilverstoneRound';
+    src: url('../../assets/fonts/Silverstone-Sans-Round.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Arialround';
+    src: url('../../assets/fonts/arialround.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Arialround', sans-serif;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    background-image: url('../../assets/images/bg-payment.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 1;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: -1; 
+}
+
+
+.layout {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    padding: 2rem 6rem;
+    position: relative;
+    z-index: 5;
+}
+
+
+.top-asset {
+    position: absolute;
+    top: 0;
+}
+
+.bottom-asset {
+    position: absolute;
+    bottom: 60px;
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 100%;
+    margin-top: 5%;
+}
+
+.payment-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-right: 15%;
+    padding-top: 5%;
+}
+
+.payment-container h2 {
+    color: #00BFB2;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+.payment-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    font-family: 'Gothic', sans-serif;
+    font-size: 20px;
+}
+
+.coupon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.coupon input {
+    border: 1px solid #DB2662;
+    border-radius: 5px;
+    outline: #DB2662;
+    padding: 0.5rem 1rem;
+}
+
+.coupon button {
+    border: none;
+    background-color: #DB2662;
+    padding: 0.5rem 1rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.special-price {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #DB2662;
+    border-radius: 5px;
+    font-family: 'Gothic', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #DB2662;
+}
+
+.price-text {
+    padding: 0.4rem 1rem;
+}
+
+.price {
+    background-color: #DB2662;
+    color: white;
+    padding: 0.4rem 1rem 0.3rem 3rem;
+    text-align: end;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    font-family: 'Gothic', sans-serif;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+.print {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.print-icon {
+    width: 40px;
+    padding: 1rem;
+    border-radius: 40px;
+    background-color: #DB2662;
+}
+
+.cancel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer; 
+}
+
+.cancel-icon {
+    width: 40px;
+    padding: 1rem;
+    border-radius: 40px;
+    background-color: #FDF04C;
+}
+
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #00BFB2;    
+    margin-bottom: 1rem;
+}
+
+/* Slideshow container */
+.mySlides-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mySlides {
+    display: none;
+    max-width: 420px;
+    position: absolute;
+    transition: transform 0.5s;
+  }
+  
+  .mySlides.active {
+    top: 0;
+    display: block;
+    position: absolute;
+    z-index: 2;
+    flex: 0 0 auto;
+  }
+  
+  .mySlides.second {
+    top: 0;
+    bottom: 10%;
+    margin-top: -2%;
+    display: block; 
+    opacity: 0.6;
+    z-index: 1;
+    margin-left: 12%;
+    flex: 0 0 auto;
+    transform: scale(0.85);
+  }
+
+/* Next & previous buttons */
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    position: absolute;
+    top: 30%;
+    right: 8%;
+    z-index: 3;
+}
+
+/* Number text (1/2 etc) */
+.numbertext {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #DB2662;
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    left: 45%;
+    margin-top: -7%;
+    z-index: 5;
+}
+
+.non-active-number {
+    opacity: 0.5;
+}
+
+.active-number {
+    transform: scale(1.5);
+}
+
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+.fade-second {
+    animation-name: fade-second;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+@keyframes fade-second {
+    from {opacity: 1}
+    to {opacity: 0.6}
+}
