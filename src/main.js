@@ -16,7 +16,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadFile(__dirname + "/pages/scan/index.html");
+  mainWindow.loadFile(__dirname + "/pages/station/index.html");
   mainWindow.setMenuBarVisibility(false);
   mainWindow.on("closed", () => (mainWindow = null));
   //   mainWindow.maximize();
