@@ -26,10 +26,10 @@ function onScanFailure(error) {
 navigator.mediaDevices
   .getUserMedia({ video: true })
   .then(function (stream) {
+    modal.style.display = "none";
     stream.getTracks().forEach((track) => track.stop());
   })
   .catch(function (error) {
-    modal.style.display = "block";
     if (
       error.name === "NotAllowedError" ||
       error.name === "PermissionDeniedError"

@@ -60,7 +60,7 @@ body::after {
 
 
 .modal {
-    display: none;
+    display: block;
     position: fixed; 
     z-index: 50;
     left: 0;
