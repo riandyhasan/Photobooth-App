@@ -192,6 +192,18 @@ img[alt="Info icon"] {
     text-align: center;
 }
 
+.close {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+    z-index: 65;
+}
+
+.close img {
+    width: 15px;
+}
+
 .pop-up {
     animation-name: pop-up;
     animation-duration: 0.3s;
