@@ -58,9 +58,77 @@ body::after {
     padding-left: 6rem;
 }
 
+
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.75);
+}
+
+.modal-content {
+    background-color: #DB2662;
+    margin: 15% auto; 
+    width: 25%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+}
+
+.modal-title {
+    font-family: 'Gothic', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
 #reader__dashboard {
+    color: white;
+    font-size: 20px;
+}
+
+#reader__dashboard_section_csr {
+    gap: 1rem;
+}
+
+#reader__dashboard_section_csr button {
+    border: none;
+    color:#DB2662;
+    outline: none;
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    font-family: 'Gothic', sans-serif;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+#html5-qrcode-select-camera {
+    border: none;
+    background-color: white;
+    color: black;
+    font-family: 'Gothic', sans-serif;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+}
+
+#html5-qrcode-anchor-scan-type-change {
     display: none !important;
-    height: 0px !important;
 }
 
 #reader {
@@ -110,7 +178,7 @@ img[alt="Info icon"] {
     position: absolute;
     top: 150px;
     right: 13px;
-    z-index: 50;
+    z-index: 10;
 }
 
 .helper {
@@ -122,4 +190,14 @@ img[alt="Info icon"] {
     font-weight: 400;
     line-height: normal;
     text-align: center;
+}
+
+.pop-up {
+    animation-name: pop-up;
+    animation-duration: 0.3s;
+}
+
+@keyframes pop-up {
+    from {scale: 0}
+    to {scale: 1}
 }
