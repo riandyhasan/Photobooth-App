@@ -1,4 +1,7 @@
 const cancel = document.querySelector("#cancel");
+const modal = document.querySelector("#payment-modal");
+const print = document.querySelector("#print");
+const close = document.querySelector("#close");
 
 let slideIndex = 1;
 showSlides(1);
@@ -37,4 +40,12 @@ function showSlides(n) {
 
 cancel.addEventListener("click", () => {
   window.location.href = "../scan/index.html";
+});
+
+print.addEventListener("click", () => {
+  modal.classList.add("show");
+});
+
+close.addEventListener("click", () => {
+  modal.classList.remove("show");
 });

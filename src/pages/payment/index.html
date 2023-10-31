@@ -6,6 +6,28 @@
       <link rel="stylesheet" href="index.css">
    </head>
    <body>
+
+    <!-- The Modal -->
+    <div id="payment-modal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content pop-up">
+        <div class="modal-header">
+          <div class="close" id="close">
+            <img src="../../assets/images/close.svg" />
+          </div>
+          <div class="modal-title">
+            Q-Ris Scan
+          </div>
+        </div>
+        <div class="qris">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Sample_EPC_QR_code.png" />
+        </div>
+        
+      </div>
+
+    </div>
+
       <img src="../../assets/images/top.svg" class="top-asset" />
       <div class="layout">
          <div class="content">
@@ -96,7 +118,7 @@
                 <img src="../../assets/images/cancel.svg" class="cancel-icon">
                 <div>Cancel</div>
               </div>
-              <div class="print">
+              <div class="print" id="print">
                 <img src="../../assets/images/print.svg" class="print-icon">
                 <div>Print</div>
               </div>

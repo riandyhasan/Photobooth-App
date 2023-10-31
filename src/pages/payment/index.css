@@ -84,6 +84,71 @@ body::after {
 }
 
 
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.75);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+  
+.modal-content {
+    background-color: #DB2662;
+    margin: 15% auto; 
+    width: 25%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+}
+
+.modal-title {
+    font-family: 'Gothic', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.close {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.close img {
+    width: 25px;
+}
+
+.qris {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+   border: 10px solid #FDF04C;
+   border-radius: 20px;
+}
+
 .layout {
     width: 100%;
     height: 100vh;
@@ -326,6 +391,11 @@ body::after {
     animation-duration: 1.5s;
 }
 
+.pop-up {
+    animation-name: pop-up;
+    animation-duration: 0.3s;
+}
+
 @keyframes fade {
     from {opacity: .4}
     to {opacity: 1}
@@ -334,4 +404,8 @@ body::after {
 @keyframes fade-second {
     from {opacity: 1}
     to {opacity: 0.6}
+}
+@keyframes pop-up {
+    from {scale: 0}
+    to {scale: 1}
 }
