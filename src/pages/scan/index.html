@@ -8,30 +8,18 @@
 <body>
 
   <!-- Toast -->
-  <div id="toast">QR tidak valid, silahkan hubungi admin.</div>
-
-  <!-- The Modal -->
-  <div id="qr-modal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content pop-up">
-      <div class="modal-header">
-        <div class="close" id="close">
-          <img src="../../assets/images/close.svg" />
-        </div>
-      </div>
-
-      
-    </div>
-
-  </div>
+  <div id="toast">The QR code is not valid, please contact the administrator.</div>
 
   <img src="../../assets/images/top.svg" class="top-asset" />
   <img src="../../assets/images/vip.svg" class="img-vip" /> 
   <div class="layout">
     <img src="../../assets/images/milio-scan.svg" class="img-milio" />
     <div>
-      <div id="reader"></div>
+      <div id="reader">
+        <div class="loader-container" id="loader">
+          <div class="loader"></div>
+        </div>
+      </div>
       <div class="helper">Scan barcode at the camera</div>
     </div>
   </div>

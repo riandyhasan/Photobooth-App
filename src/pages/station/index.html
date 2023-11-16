@@ -1,23 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Milio | Station</title>
-  <link rel="stylesheet" href="index.css">
-</head>
-<body>
-  <img src="../../assets/images/top.svg" class="top-asset" />
-  <div class="setting">
-    <img src="../../assets/images/setting.png" />
-  </div>
-  <div class="layout">
-    <div class="station-name">
-      NAMA STATION
-    </div>
-    <img src="../../assets/images/milio-station.png" class="img-station" />
-    <button class="open" id="open">OPEN</button>
-  </div>
-  <img src="../../assets/images/bottom.svg" class="bottom-asset" />
-  <script src="index.js"></script>
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Milio | Station</title>
+      <link rel="stylesheet" href="index.css">
+   </head>
+   <body>
+      <img src="../../assets/images/top.svg" class="top-asset" />\
+      <!-- The Setting -->
+      <div class="setting" id="setting">
+         <img src="../../assets/images/setting.png" />
+      </div>
+      <!-- Toast -->
+      <div id="toast">You have not configured the camera and printer.</div>
+
+      <!-- Station Modal -->
+      <div id="station-modal" class="modal">
+         <!-- Modal content -->
+         <div class="modal-content pop-up">
+            <div class="modal-header">
+               <h2 class="modal-title">Input Station Name</h2>
+            </div>
+            <div class="station-input">
+               <input id="stationNameInput" />
+               <button id="stationNameButton">Submit</button>
+            </div>
+         </div>
+      </div>
+      
+      <!-- Setting Modal -->
+      <div id="setting-modal" class="modal">
+         <!-- Modal content -->
+         <div class="modal-content pop-up">
+            <div class="modal-header">
+               <div class="close" id="close-setting">
+                  <img src="../../assets/images/close.svg" />
+               </div>
+               <h2 class="modal-title">Setting</h2>
+            </div>
+            <div class="setting-container">
+              <div class="setting-row">
+                <div>Camera</div>
+                <select id="selectCamera">
+
+                </select>
+              </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="layout">
+         <div class="station-name" id="stationName">
+         </div>
+         <img src="../../assets/images/milio-station.png" class="img-station" />
+         <button class="open" id="open">OPEN</button>
+      </div>
+      <img src="../../assets/images/bottom.svg" class="bottom-asset" />
+      <script src="index.js"></script>
+   </body>
 </html>

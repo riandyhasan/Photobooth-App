@@ -1,19 +1,25 @@
-const $ = require("jquery");
-const Html5QrcodeScanner = require("html5-qrcode").Html5QrcodeScanner;
-
-const close = document.querySelector("#close");
-
-const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 300 });
-
-const modal = document.querySelector("#qr-modal");
-
+const { Html5QrcodeScanType, Html5Qrcode } = require("html5-qrcode");
+let config = {
+  fps: 10,
+  qrbox: { width: 350, height: 350 },
+  rememberLastUsedCamera: true,
+  supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
+};
+let selectedCamera = localStorage.getItem("camera");
+let scanner = new Html5Qrcode("reader");
 const toast = document.querySelector("#toast");
-
-scanner.render(onScanSuccess, onScanFailure);
-
-const dashboard = document.querySelector("#reader__dashboard");
-
-modal.querySelector(".modal-content").appendChild(dashboard);
+const loader = document.querySelector("#loader");
+async function loadScanner() {
+  try {
+    if (!selectedCamera) {
+      window.location.href = `../station/index.html`;
+    }
+    await scanner.start(selectedCamera, config, onScanSuccess, onScanFailure);
+  } catch (e) {
+    console.log(e);
+    // window.location.href = `../station/index.html`;
+  }
+}
 
 function showToast() {
   toast.className = "show";
@@ -34,8 +40,4 @@ function onScanSuccess(decodedText, decodedResult) {
 
 function onScanFailure(error) {}
 
-close.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-console.log(scanner.getState());
+loadScanner();

@@ -8,6 +8,7 @@ const modal = document.querySelector("#payment-modal");
 const print = document.querySelector("#print");
 const close = document.querySelector("#close");
 const loader = document.querySelector("#loader");
+const toast = document.querySelector("#toast");
 const userName = document.querySelector("#user_name");
 const quantity = document.querySelector("#quantity");
 const subtotal = document.querySelector("#subtotal");
@@ -21,7 +22,25 @@ const transaction = params.get("transaction");
 let slideIndex = 1;
 
 if (!transaction) {
-  window.location.href = `../scan/index.html`;
+  noDataToast();
+}
+
+function noDataToast() {
+  toast.innerHTML = "Data not found.";
+  toast.className = "show";
+
+  setTimeout(function () {
+    toast.className = toast.className.replace("show", "");
+    window.location.href = `../scan/index.html`;
+  }, 1200);
+}
+
+function showToast() {
+  toast.className = "show";
+
+  setTimeout(function () {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
 }
 
 function formatRupiah(number) {
@@ -74,8 +93,7 @@ async function loadPayment() {
   try {
     const data = await getTransactionDetail(transaction);
     if (!data) {
-      window.location.href = "../scan/index.html";
-      return;
+      noDataToast();
     }
     userName.innerHTML = "Hi, " + data.transaction.user_name;
     subtotal.innerHTML = formatRupiah(data.transaction.total);
@@ -107,7 +125,7 @@ async function loadPayment() {
     +"</b>";
     showSlides(1);
   } catch (e) {
-    window.location.href = "../scan/index.html";
+    noDataToast();
   } finally {
     loader.style.display = "none";
   }
