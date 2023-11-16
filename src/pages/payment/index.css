@@ -4,49 +4,42 @@
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Gothic';
     src: url('../../assets/fonts/GOTHICB.TTF');
     font-weight: bold;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Gothic';
     src: url('../../assets/fonts/GOTHICBI.TTF');
     font-weight: bold;
     font-style: italic;
 }
-
 @font-face {
     font-family: 'Gothic';
     src: url('../../assets/fonts/GOTHICI.TTF');
     font-weight: normal;
     font-style: italic;
 }
-
 @font-face {
     font-family: 'Silverstone';
     src: url('../../assets/fonts/Silverstone-Sans.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'SilverstoneRound';
     src: url('../../assets/fonts/Silverstone-Sans-Round.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Arialround';
     src: url('../../assets/fonts/arialround.ttf');
     font-weight: normal;
     font-style: normal;
 }
-
 body {
     margin: 0;
     padding: 0;
@@ -56,7 +49,6 @@ body {
     font-family: 'Arialround', sans-serif;
     position: relative;
 }
-
 body::before {
     content: "";
     background-image: url('../../assets/images/bg-payment.png');
@@ -71,7 +63,6 @@ body::before {
     z-index: 1;
     opacity: 1;
 }
-
 body::after {
     content: "";
     position: absolute;
@@ -80,39 +71,34 @@ body::after {
     width: 100%;
     height: 100%;
     background-color: white;
-    z-index: -1; 
+    z-index: -1;
 }
-
-
 .modal {
-    display: none; 
-    position: fixed; 
+    display: none;
+    position: fixed;
     z-index: 10;
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%; 
+    height: 100%;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.75);
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
-
 .modal.show {
     display: block;
     opacity: 1;
 }
-  
 .modal-content {
     background-color: #DB2662;
-    margin: 15% auto; 
+    margin: 15% auto;
     width: 25%;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     transition: opacity 0.3s ease;
 }
-
 .modal-header {
     display: flex;
     position: relative;
@@ -120,7 +106,6 @@ body::after {
     justify-content: center;
     padding: 15px 20px;
 }
-
 .modal-title {
     font-family: 'Gothic', sans-serif;
     font-size: 24px;
@@ -128,48 +113,43 @@ body::after {
     color: white;
     font-weight: bold;
 }
-
 .close {
     position: absolute;
     left: 20px;
     top: 20px;
     cursor: pointer;
 }
-
 .close img {
     width: 25px;
 }
-
 .qris {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;
-   border: 10px solid #FDF04C;
-   border-radius: 20px;
+    border: 10px solid #FDF04C;
+    border-radius: 20px;
 }
-
 .layout {
     width: 100%;
     height: 100vh;
     display: flex;
     padding: 2rem 6rem;
     position: relative;
-    z-index: 5;
+    z-index: 10;
 }
-
-
 .top-asset {
     position: absolute;
     top: 0;
+    z-index: 4;
+    width: 100%;
 }
-
 .bottom-asset {
     position: absolute;
     bottom: 60px;
     z-index: 1;
+    width: 100%;
 }
-
 .content {
     position: relative;
     display: flex;
@@ -179,7 +159,6 @@ body::after {
     height: 100%;
     margin-top: 5%;
 }
-
 .payment-container {
     width: 100%;
     display: flex;
@@ -187,16 +166,14 @@ body::after {
     padding-right: 15%;
     padding-top: 5%;
 }
-
 .payment-container h2 {
     color: #00BFB2;
     font-size: 60px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
+    font-family: 'Arialround', sans-serif;
 }
-
 .payment-row {
     display: flex;
     width: 100%;
@@ -205,20 +182,18 @@ body::after {
     font-family: 'Gothic', sans-serif;
     font-size: 20px;
 }
-
 .coupon {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
-
 .coupon input {
     border: 1px solid #DB2662;
     border-radius: 5px;
     outline: #DB2662;
     padding: 0.5rem 1rem;
+    font-family: 'Arialround', sans-serif;
 }
-
 .coupon button {
     border: none;
     background-color: #DB2662;
@@ -227,7 +202,6 @@ body::after {
     border-radius: 5px;
     cursor: pointer;
 }
-
 .special-price {
     display: flex;
     justify-content: space-between;
@@ -239,18 +213,15 @@ body::after {
     font-size: 18px;
     color: #DB2662;
 }
-
 .price-text {
     padding: 0.4rem 1rem;
 }
-
 .price {
     background-color: #DB2662;
     color: white;
     padding: 0.4rem 1rem 0.3rem 3rem;
     text-align: end;
 }
-
 .buttons {
     display: flex;
     justify-content: flex-end;
@@ -259,80 +230,71 @@ body::after {
     margin-top: 2rem;
     gap: 2rem;
 }
-
 .print {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+    font-family: 'Arialround', sans-serif;
 }
-
 .print-icon {
     width: 40px;
     padding: 1rem;
     border-radius: 40px;
     background-color: #DB2662;
 }
-
 .cancel {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    cursor: pointer; 
+    cursor: pointer;
+    font-family: 'Arialround', sans-serif;
 }
-
 .cancel-icon {
     width: 40px;
     padding: 1rem;
     border-radius: 40px;
     background-color: #FDF04C;
 }
-
-
 .line {
     width: 100%;
-    height: 2px;
-    background-color: #00BFB2;    
+    height: 1.4px;
+    background-color: #00BFB2;
     margin-bottom: 1rem;
 }
-
 /* Slideshow container */
 .mySlides-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .mySlides {
+}
+.mySlides {
     display: none;
     max-width: 420px;
     position: absolute;
     transition: transform 0.5s;
-  }
-  
-  .mySlides.active {
+}
+.mySlides.active {
     top: 0;
     display: block;
     position: absolute;
     z-index: 2;
     flex: 0 0 auto;
-  }
-  
-  .mySlides.second {
+}
+.mySlides.second {
     top: 0;
     bottom: 10%;
     margin-top: -2%;
-    display: block; 
+    display: block;
     opacity: 0.6;
     z-index: 1;
     margin-left: 12%;
     flex: 0 0 auto;
     transform: scale(0.85);
-  }
-
+}
 /* Next & previous buttons */
 .next {
     cursor: pointer;
@@ -348,15 +310,13 @@ body::after {
     border-radius: 0 3px 3px 0;
     user-select: none;
 }
-
 /* Position the "next button" to the right */
 .next {
     position: absolute;
     top: 30%;
-    right: 8%;
-    z-index: 3;
+    right: 12%;
+    z-index: 7;
 }
-
 /* Number text (1/2 etc) */
 .numbertext {
     display: flex;
@@ -370,42 +330,77 @@ body::after {
     margin-top: -7%;
     z-index: 5;
 }
-
 .non-active-number {
     opacity: 0.5;
 }
-
 .active-number {
     transform: scale(1.5);
 }
-
 
 /* Fading animation */
 .fade {
     animation-name: fade;
     animation-duration: 1.5s;
 }
-
 .fade-second {
     animation-name: fade-second;
     animation-duration: 1.5s;
 }
-
 .pop-up {
     animation-name: pop-up;
     animation-duration: 0.3s;
 }
 
-@keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
+.loader-container {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.95);
+    transition: opacity 1s ease-in-out;
 }
 
+.loader {
+    border: 16px solid #00BFB2;
+    border-top: 16px solid #DB2662;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fade {
+    from {
+       opacity: .4
+   }
+    to {
+       opacity: 1
+   }
+}
 @keyframes fade-second {
-    from {opacity: 1}
-    to {opacity: 0.6}
+    from {
+       opacity: 1
+   }
+    to {
+       opacity: 0.6
+   }
 }
 @keyframes pop-up {
-    from {scale: 0}
-    to {scale: 1}
+    from {
+       scale: 0
+   }
+    to {
+       scale: 1
+   }
 }

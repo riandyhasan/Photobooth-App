@@ -97,3 +97,10 @@ body::after {
     position: relative;
     z-index: 5;
 }
+
+.setting {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 20px;
+}

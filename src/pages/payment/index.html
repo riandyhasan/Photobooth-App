@@ -7,6 +7,11 @@
    </head>
    <body>
 
+     <!-- Loader -->
+     <div id="loader" class="loader-container">
+      <div class="loader" ></div>
+     </div>
+
     <!-- The Modal -->
     <div id="payment-modal" class="modal">
 
@@ -83,33 +88,33 @@
             </a>
          </div>
          <div class="payment-container">
-            <h2>Hi, Pandika</h2>
+            <h2 id="user_name">Hi, </h2>
             <div class="payment-row">
               <div>Total Print</div>
-              <div>8 Pax</div>
+              <div id="quantity">0 Pax</div>
             </div>
             <div class="line"></div>
             <div class="payment-row">
               <div>Subtotal</div>
-              <div>Rp560.000</div>
+              <div id="subtotal">Rp0</div>
             </div>
-            <div class="payment-row">
+            <div class="payment-row" id="discount-container" style="display: none;">
               <div>Voucher Disc</div>
-              <div>- Rp30.000</div>
+              <div id="discount"></div>
             </div>
             <div class="line"></div>
             <div class="payment-row">
               <div><b>Total</b></div>
-              <div><b>Rp530.000</b></div>
+              <div id="total">Rp0</div>
             </div>
             <div class="payment-row">
               <div class="coupon">
                 <input type="text" name="coupon" id="coupon" placeholder="Coupon" />
                 <button>Apply</button>
               </div>
-              <div>- Rp450.000</div>
+              <div id="coupon-nominal"></div>
             </div>
-            <div class="special-price">
+            <div class="special-price" id="special-price" style="display: none;">
               <div class="price-text">Special Price</div>
               <div class="price">Rp80.000</div>
             </div>
