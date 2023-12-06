@@ -1,42 +1,54 @@
 const { google } = require("googleapis");
 const axios = require("axios");
-const email = process.env.CLIENT_EMAIL;
-const key = process.env.PRIVATE_KEY;
 
-const auth = new google.auth.JWT({
-  email,
-  key,
-  scopes: ["https://www.googleapis.com/auth/drive"],
-});
+const email = env.process.EMAIL;
+const key = env.process.KEY;
 
-const drive = google.drive({ version: "v3", auth: oAuth2Client });
+function initDrive() {
+  const auth = new google.auth.JWT({
+    email,
+    key,
+    scopes: ["https://www.googleapis.com/auth/drive"],
+  });
 
-async function getFileMetadata(fileId) {
-  try {
-    const { data } = await drive.files.get({ fileId });
-    return data;
-  } catch (e) {
-    throw e;
-  }
-}
+  const drive = google.drive({ version: "v3", auth });
 
-async function downloadFileAsBlob(fileId) {
-  try {
-    const response = await axios({
-      method: "GET",
-      url: `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
-      headers: {
-        Authorization: `Bearer ${auth.creadentials.access_token}`,
-      },
+  return new Promise((resolve, reject) => {
+    auth.authorize((err, response) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const getFileMetadata = async (fileId) => {
+        try {
+          const { data } = await drive.files.get({ fileId });
+          return data;
+        } catch (e) {
+          throw e;
+        }
+      };
+
+      const downloadFileAsBlob = async (fileId) => {
+        try {
+          const response = await axios({
+            method: "GET",
+            url: `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+            responseType: "arraybuffer",
+            headers: {
+              Authorization: `Bearer ${auth.credentials.access_token}`,
+            },
+          });
+
+          return Buffer.from(response.data, "binary").toString("base64");
+        } catch (e) {
+          throw e;
+        }
+      };
+
+      resolve({ getFileMetadata, downloadFileAsBlob });
     });
-
-    return Buffer.from(response.data, "binary").toString("base64");
-  } catch (e) {
-    throw e;
-  }
+  });
 }
 
-module.exports = {
-  getFileMetadata,
-  downloadFileAsBlob,
-};
+module.exports = initDrive;

@@ -28,11 +28,35 @@
             Q-Ris Scan
           </div>
         </div>
-        <div class="qris">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Sample_EPC_QR_code.png" />
+        <div class="qris" id="qr-code">
         </div>
         
       </div>
+
+    </div>
+
+    <div id="ty-modal" class="ty-modal">
+
+      <!-- Modal content -->
+      <img src="../../assets/images/ty.png" />
+      <h2 id="ty-name"></h2>
+
+    </div>
+
+    <div id="printing-modal" class="printing-modal">
+
+      <!-- Modal content -->
+      <div class="dots-loading">
+        <div>
+          <span class="dots"></span>
+          <span class="dots"></span>
+          <span class="dots"></span>
+        </div>
+      <div class="printing-text">Printing your photo</div>
+    </div>
+
+    <img src="../../assets/images/merch.png" style="width: 70%;" />
+
 
     </div>
 
@@ -40,50 +64,9 @@
       <div class="layout">
          <div class="content">
             <!-- Slideshow container -->
-            <div class="slideshow-container">
+            <div class="slideshow-container" id="slide">
                <!-- Full-width images with number and caption text -->
-               <div class="mySlides fade">
-                <div class="numbertext">
-                  <div class="active-number">
-                    1
-                  </div>
-                  <div class="non-active-number">
-                    2
-                  </div>
-                  <div class="non-active-number">
-                    3
-                  </div>
-                </div>
-                  <img src="../../assets/images/example.png" style="width:100%">
-               </div>
-               <div class="mySlides fade">
-                  <div class="numbertext">
-                    <div class="non-active-number">
-                      1
-                    </div>
-                    <div class="active-number">
-                      2
-                    </div>
-                    <div class="non-active-number">
-                      3
-                    </div>
-                  </div>
-                  <img src="../../assets/images/example2.png" style="width:100%">
-               </div>
-               <div class="mySlides fade">
-                <div class="numbertext">
-                  <div class="non-active-number">
-                    1
-                  </div>
-                  <div class="non-active-number">
-                    2
-                  </div>
-                  <div class="active-number">
-                    3
-                  </div>
-                </div>
-                  <img src="../../assets/images/example3.png" style="width:100%">
-               </div>
+               
             </div>
             <!-- Next and previous buttons -->
             <a class="next" onclick="plusSlides(1)">
@@ -113,7 +96,7 @@
             <div class="payment-row">
               <div class="coupon">
                 <input type="text" name="coupon" id="coupon" placeholder="Coupon" />
-                <button>Apply</button>
+                <button id="apply-code">Apply</button>
               </div>
               <div id="coupon-nominal"></div>
             </div>

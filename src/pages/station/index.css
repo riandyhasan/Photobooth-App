@@ -96,7 +96,7 @@ body::after {
     border-radius: 5px;
     outline: #DB2662;
     padding: 0.6rem 0.3rem;
-    width: 80%;
+    width: 70%;
 }
 .station-input button {
     border: none;
