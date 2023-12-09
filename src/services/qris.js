@@ -1,8 +1,10 @@
 const axios = require("axios");
 const QRCode = require("qrcode");
 
-const mID = env.process.MID;
-const apikey = env.process.API_KEY;
+const dotenv = require("dotenv");
+dotenv.config();
+const mID = process.env.MID;
+const apikey = process.env.API_KEY;
 
 async function createInvoice(cliTrxNumber, cliTrxAmount) {
   try {

@@ -1,20 +1,31 @@
 const { Html5Qrcode } = require("html5-qrcode");
 var Printer = require("zuzel-printer");
 
+const {
+  checkStationName,
+  createStation,
+  openStation,
+} = require("../../services/admin-api");
 let stationName;
 let selectedCamera = localStorage.getItem("camera");
+let selectedPrinter = localStorage.getItem("printer");
 let cameraSelection = "";
+let printerSelection = "";
 
 const buttonOpen = document.querySelector("#open");
 const buttonStation = document.querySelector("#stationNameButton");
 const setting = document.querySelector("#setting");
 const settingModal = document.querySelector("#setting-modal");
 const stationModal = document.querySelector("#station-modal");
+const confrimationModal = document.querySelector("#create-station-modal");
 const closeSetting = document.querySelector("#close-setting");
 const toast = document.querySelector("#toast");
 const station = document.querySelector("#stationName");
 const stationNameInput = document.querySelector("#stationNameInput");
 const cameraSelect = document.querySelector("#selectCamera");
+const printerSelect = document.querySelector("#selectPrinter");
+const confirmYes = document.querySelector("#confirmYes");
+const confirmNo = document.querySelector("#confirmNo");
 
 async function getActiveCamera() {
   try {
@@ -25,6 +36,7 @@ async function getActiveCamera() {
       });
     }
     cameraSelect.innerHTML = cameraSelection;
+    cameraSelect.value = selectedCamera;
   } catch (e) {
     toast.innerHTML = "Please allow the camera access";
     showToast();
@@ -33,7 +45,14 @@ async function getActiveCamera() {
 
 function getActivePrinter() {
   const printers = Printer.list();
-  console.log(printers);
+  if (printers.length > 0) {
+    printers.map((device) => {
+      console.log(device);
+      printerSelection += `<option value="${device}">${device}</option>`;
+    });
+    printerSelect.innerHTML = printerSelection;
+    printerSelect.value = selectedPrinter;
+  }
 }
 
 function showToast() {
@@ -42,6 +61,56 @@ function showToast() {
   setTimeout(function () {
     toast.className = toast.className.replace("show", "");
   }, 3000);
+}
+
+async function createNewStation() {
+  const stationNameValue = stationNameInput.value;
+  if (stationNameValue === "") {
+    toast.innerHTML = "Please fill the station name.";
+    showToast();
+  }
+  try {
+    const data = {
+      name: stationNameValue,
+    };
+    const response = await createStation(data);
+    const dataStation = response.data.station;
+    if (dataStation) {
+      stationName = stationNameValue;
+      localStorage.setItem("station", stationNameValue);
+      localStorage.setItem("stationID", dataStation.id);
+      stationModal.style.display = "none";
+      station.innerHTML = stationNameValue;
+      confrimationModal.style.display = "none";
+    }
+  } catch (e) {
+    toast.innerHTML = "Connection error.";
+    showToast();
+  }
+}
+
+async function checkExistingStation() {
+  const stationNameValue = stationNameInput.value;
+  if (stationNameValue === "") {
+    toast.innerHTML = "Please fill the station name.";
+    showToast();
+  }
+  try {
+    const response = await checkStationName(stationNameValue);
+    const dataStation = response.data.station;
+    if (dataStation) {
+      stationName = stationNameValue;
+      localStorage.setItem("station", stationNameValue);
+      localStorage.setItem("stationID", dataStation.id);
+      stationModal.style.display = "none";
+      station.innerHTML = stationNameValue;
+    } else {
+      confrimationModal.style.display = "block";
+    }
+  } catch (e) {
+    toast.innerHTML = "Connection error.";
+    showToast();
+  }
 }
 
 if (!stationName) {
@@ -53,14 +122,17 @@ if (!stationName) {
 getActiveCamera();
 getActivePrinter();
 
-buttonOpen.addEventListener("click", () => {
-  console.log(selectedCamera);
-  if (!selectedCamera) {
+buttonOpen.addEventListener("click", async () => {
+  if (!selectedCamera || !selectedPrinter) {
     toast.innerHTML = "You have not configured the camera and printer.";
     showToast();
     return;
   }
-  window.location.href = "../scan/index.html";
+  const stationID = localStorage.getItem("stationID");
+  const response = await openStation(stationID);
+  if (response) {
+    window.location.href = "../scan/index.html";
+  }
 });
 
 setting.addEventListener("click", () => {
@@ -71,35 +143,30 @@ closeSetting.addEventListener("click", () => {
   settingModal.style.display = "none";
 });
 
-buttonStation.addEventListener("click", () => {
-  const stationNameValue = stationNameInput.value;
-  if (stationNameValue == "") {
-    toast.innerHTML = "Please fill the station name.";
-    showToast();
-    return;
-  }
-  stationName = stationNameValue;
-  localStorage.setItem("station", stationNameValue);
-  stationModal.style.display = "none";
-  station.innerHTML = stationNameValue;
+buttonStation.addEventListener("click", async () => {
+  await checkExistingStation();
 });
 
-stationNameInput.addEventListener("keydown", (event) => {
+stationNameInput.addEventListener("keydown", async (event) => {
   if (event.key === "Enter") {
-    const stationNameValue = stationNameInput.value;
-    if (stationNameValue === "") {
-      toast.innerHTML = "Please fill the station name.";
-      showToast();
-    } else {
-      stationName = stationNameValue;
-      localStorage.setItem("station", stationNameValue);
-      stationModal.style.display = "none";
-      station.innerHTML = stationNameValue;
-    }
+    await checkExistingStation();
   }
 });
 
 cameraSelect.addEventListener("change", (event) => {
   selectedCamera = event.target.value;
   localStorage.setItem("camera", selectedCamera);
+});
+
+printerSelect.addEventListener("change", (event) => {
+  selectedPrinter = event.target.value;
+  localStorage.setItem("printer", selectedPrinter);
+});
+
+confirmYes.addEventListener("click", async () => {
+  await createNewStation();
+});
+
+confirmNo.addEventListener("click", () => {
+  confrimationModal.style.display = "none";
 });

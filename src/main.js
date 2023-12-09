@@ -1,7 +1,31 @@
 const { app, BrowserWindow, ipcMain, dialog, screen } = require("electron");
 const path = require("path");
+const { closeStation } = require("./services/admin-api");
 
 let mainWindow;
+
+async function confirmClose(e) {
+  dialog
+    .showMessageBox(mainWindow, {
+      type: "question",
+      buttons: ["Yes", "No"],
+      title: "Confirmation",
+      message: "Are you sure you want to close the application?",
+    })
+    .then(async (result) => {
+      if (result.response === 0) {
+        const stationID = await mainWindow.webContents.executeJavaScript(
+          "localStorage.getItem('stationID');"
+        );
+        await closeStation(stationID);
+        mainWindow = null;
+      } else e.preventDefault();
+    })
+    .catch((error) => {
+      console.error("Error showing message box:", error.message);
+    });
+  // mainWindow = null;
+}
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -9,7 +33,7 @@ function createWindow() {
     width,
     height,
     autoHideMenuBar: true,
-    frame: false,
+    frame: true,
     icon: "./assets/images/logo.ico",
     webPreferences: {
       nodeIntegration: true,
@@ -19,14 +43,16 @@ function createWindow() {
 
   mainWindow.loadFile(__dirname + "/pages/station/index.html");
   mainWindow.setMenuBarVisibility(false);
-  mainWindow.on("closed", () => (mainWindow = null));
+  mainWindow.on("closed", (e) => {
+    confirmClose(e);
+  });
 }
 
 app.whenReady().then(createWindow);
 
-app.on("window-all-closed", () => {
+app.on("closed", (e) => {
   if (process.platform !== "darwin") {
-    app.quit();
+    confirmClose(e);
   }
 });
 

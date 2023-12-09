@@ -133,6 +133,23 @@ body::after {
     cursor: pointer;
 }
 
+.confirm-row{ 
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    justify-content: center;
+    align-self: center;
+}
+
+.confirm-row button {
+    border: none;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    color: #DB2662;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .open {
     border: none;
     background-color: #DB2662;
@@ -140,7 +157,7 @@ body::after {
     border-radius: 50px;
     font-family: 'SilverstoneRound', sans-serif;
     color: white;
-    font-size: 40px;
+    font-size: 60px;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     cursor: pointer;

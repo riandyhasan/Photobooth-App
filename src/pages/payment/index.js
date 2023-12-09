@@ -1,16 +1,17 @@
-const { data } = require("jquery");
 const {
   getTransactionDetail,
   getDiscountDetail,
   getPromoByCode,
   updateStatusTransaction,
 } = require("../../services/api.js");
+const { printPaper } = require("../../services/admin-api.js");
 const initDrive = require("../../services/google.js");
 const {
   createInvoice,
   generateQR,
   checkStatus,
 } = require("../../services/qris.js");
+var Printer = require("zuzel-printer");
 
 const slide = document.querySelector("#slide");
 const qr = document.querySelector("#qr-code");
@@ -41,6 +42,7 @@ let qrImage;
 let totalPayment = 0;
 let paymentStatus = "unpaid";
 let discountId = [];
+let photos = [];
 
 if (!transaction) {
   noDataToast();
@@ -210,6 +212,7 @@ async function loadPayment() {
     for (let idx = 0; idx < pl; idx++) {
       const image = await downloadFileAsBlob(prints[idx]["drive_id"]);
       slide.innerHTML += generateSlideImage(pl, idx, image);
+      photos.push(image);
     }
     showSlides(1);
   } catch (e) {
@@ -253,15 +256,7 @@ async function updateTransaction() {
     if (updateStatus) {
       modal.classList.remove("show");
       printing.classList.add("show");
-      setTimeout(function () {
-        printing.classList.remove("show");
-        const userTy = document.querySelector("ty-name");
-        userTy.innerHTML = userName.innerHTML;
-        ty.classList.add("show");
-        setTimeout(function () {
-          window.location.href = `../scan/index.html`;
-        }, 1000);
-      }, 5000);
+      await printPhoto();
     }
   } catch (e) {
   } finally {
@@ -303,9 +298,9 @@ async function scheduleChecks() {
     }
     checksPerformed++;
 
-    if (checksPerformed === 2) {
+    if (checksPerformed === 3) {
       interval = 30000;
-    } else if (checksPerformed === 3) {
+    } else if (checksPerformed === 4) {
       interval = 45000;
     } else if (checksPerformed > 3) {
       interval = 70000;
@@ -320,6 +315,39 @@ async function scheduleChecks() {
 
   // Start the first check
   setTimeout(checkAndReschedule, interval);
+}
+
+async function printPhoto() {
+  const printerName = localStorage.getItem("printer");
+  var options = {
+    media: "Custom.101.6x152.4mm",
+    n: 1,
+  };
+
+  const base64Image = photos[slideIndex - 1];
+
+  var printer = new Printer(printerName);
+
+  var imageBuffer = Buffer.from(base64Image, "base64");
+
+  var job = printer.printBuffer(imageBuffer, options);
+
+  job.once("sent", function () {
+    console.log("Job " + job.identifier + " has been sent");
+  });
+  job.on("completed", async function () {
+    const stationID = localStorage.getItem("stationID");
+    await printPaper(stationID);
+    job.removeAllListeners();
+    printer.destroy();
+    printing.classList.remove("show");
+    const userTy = document.querySelector("ty-name");
+    userTy.innerHTML = userName.innerHTML;
+    ty.classList.add("show");
+    setTimeout(function () {
+      window.location.href = `../scan/index.html`;
+    }, 1000);
+  });
 }
 
 loadPayment();

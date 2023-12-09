@@ -1,8 +1,11 @@
 const { google } = require("googleapis");
 const axios = require("axios");
 
-const email = env.process.EMAIL;
-const key = env.process.KEY;
+const dotenv = require("dotenv");
+dotenv.config();
+
+const email = process.env.EMAIL;
+const key = process.env.KEY;
 
 function initDrive() {
   const auth = new google.auth.JWT({

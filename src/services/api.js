@@ -1,5 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const axios = require("axios");
-const baseUrl = env.process.BASE_URL;
+const baseUrl = process.env.BASE_URL;
 
 async function getTransactionDetail(id) {
   try {
