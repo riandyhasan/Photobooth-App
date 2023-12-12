@@ -63,6 +63,13 @@ function showToast() {
   }, 3000);
 }
 
+function changeBackgroundImage(newImageUrl) {
+  document.body.style.setProperty(
+    "--background-image-url",
+    `url('${newImageUrl}')`
+  );
+}
+
 async function createNewStation() {
   const stationNameValue = stationNameInput.value;
   if (stationNameValue === "") {
@@ -104,6 +111,16 @@ async function checkExistingStation() {
       localStorage.setItem("stationID", dataStation.id);
       stationModal.style.display = "none";
       station.innerHTML = stationNameValue;
+      if (
+        dataStation.background_images &&
+        dataStation.background_images.length > 0
+      ) {
+        localStorage.setItem(
+          "bg",
+          JSON.stringify(dataStation.background_images)
+        );
+        changeBackgroundImage(dataStation.background_images[0]);
+      }
     } else {
       confrimationModal.style.display = "block";
     }

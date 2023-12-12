@@ -48,10 +48,12 @@ body {
     overflow: hidden;
     font-family: 'Arialround', sans-serif;
     position: relative;
+    --background-image-url: url('../../assets/images/bg-payment.png');
+
 }
 body::before {
     content: "";
-    background-image: url('../../assets/images/bg-payment.png');
+    background-image: var(--background-image-url);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

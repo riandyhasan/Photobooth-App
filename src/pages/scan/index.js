@@ -9,6 +9,15 @@ let selectedCamera = localStorage.getItem("camera");
 let scanner = new Html5Qrcode("reader");
 const toast = document.querySelector("#toast");
 const loader = document.querySelector("#loader");
+const bgImages = localStorage.getItem("bg");
+
+function changeBackgroundImage(newImageUrl) {
+  document.body.style.setProperty(
+    "--background-image-url",
+    `url('${newImageUrl}')`
+  );
+}
+
 async function loadScanner() {
   try {
     if (!selectedCamera) {
@@ -41,3 +50,10 @@ function onScanSuccess(decodedText, decodedResult) {
 function onScanFailure(error) {}
 
 loadScanner();
+
+if (bgImages) {
+  const bg = JSON.parse(bgImages);
+  if (bg.length > 1) {
+    changeBackgroundImage(bg[1]);
+  }
+}

@@ -35,6 +35,8 @@ const couponCode = document.querySelector("#coupon");
 const apply = document.querySelector("#apply-code");
 const params = new URLSearchParams(location.search);
 const transaction = params.get("transaction");
+const bgImages = localStorage.getItem("bg");
+
 let slideIndex = 1;
 let name;
 let paymentQr;
@@ -46,6 +48,13 @@ let photos = [];
 
 if (!transaction) {
   noDataToast();
+}
+
+function changeBackgroundImage(newImageUrl) {
+  document.body.style.setProperty(
+    "--background-image-url",
+    `url('${newImageUrl}')`
+  );
 }
 
 function generateSlideImage(count, idx, src) {
@@ -351,6 +360,13 @@ async function printPhoto() {
 }
 
 loadPayment();
+
+if (bgImages) {
+  const bg = JSON.parse(bgImages);
+  if (bg.length > 2) {
+    changeBackgroundImage(bg[2]);
+  }
+}
 
 couponCode.addEventListener("keyup", async (event) => {
   if (event.key === "Enter" || event.keyCode === 13) {
