@@ -3,8 +3,8 @@ const QRCode = require("qrcode");
 
 const dotenv = require("dotenv");
 dotenv.config();
-const mID = process.env.MID;
-const apikey = process.env.API_KEY;
+const mID = "195269855882";
+const apikey = "139139230913049";
 
 async function createInvoice(cliTrxNumber, cliTrxAmount) {
   try {

@@ -85,7 +85,7 @@ body::after {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-left: 6rem;
+    padding-left: 4rem;
 }
 
 #reader__dashboard {
@@ -163,15 +163,19 @@ img[alt="Info icon"] {
 .top-asset {
     position: absolute;
     top: 0;
+    z-index: 4;
+    width: 100%;
 }
 
 .bottom-asset {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
+    z-index: 1;
+    width: 100%;
 }
 
 .img-milio {
-    width: 500px;
+    width: 600px;
 }
 
 .img-vip {

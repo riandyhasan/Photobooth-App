@@ -12,10 +12,12 @@ const loader = document.querySelector("#loader");
 const bgImages = localStorage.getItem("bg");
 
 function changeBackgroundImage(newImageUrl) {
-  document.body.style.setProperty(
-    "--background-image-url",
-    `url('${newImageUrl}')`
-  );
+  if (newImageUrl && newImageUrl != "") {
+    document.body.style.setProperty(
+      "--background-image-url",
+      `url('${newImageUrl}')`
+    );
+  }
 }
 
 async function loadScanner() {

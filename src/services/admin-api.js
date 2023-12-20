@@ -3,8 +3,8 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const baseUrl = process.env.ADMIN_URL;
-const apiKey = process.env.ADMIN_API_KEY;
+const baseUrl = "https://api-app.miliostation.com";
+const apiKey = "QM2E7gyCOFmmqda0crgMmhZSbEeDBDVw";
 
 const headers = {
   "milio-x-key": apiKey,

@@ -3,44 +3,48 @@ const {
   getDiscountDetail,
   getPromoByCode,
   updateStatusTransaction,
-} = require('../../services/api.js');
-const { printPaper } = require('../../services/admin-api.js');
-const initDrive = require('../../services/google.js');
-const { createInvoice, generateQR, checkStatus } = require('../../services/qris.js');
-var Printer = require('zuzel-printer');
-const remote = require('@electron/remote');
+} = require("../../services/api.js");
+const { printPaper } = require("../../services/admin-api.js");
+const initDrive = require("../../services/google.js");
+const {
+  createInvoice,
+  generateQR,
+  checkStatus,
+} = require("../../services/qris.js");
+var Printer = require("zuzel-printer");
+const remote = require("@electron/remote");
 const BrowserWindow = remote.BrowserWindow;
 
-const slide = document.querySelector('#slide');
-const qr = document.querySelector('#qr-code');
-const cancel = document.querySelector('#cancel');
-const modal = document.querySelector('#payment-modal');
-const printing = document.querySelector('#printing-modal');
-const ty = document.querySelector('#ty-modal');
-const print = document.querySelector('#print');
-const close = document.querySelector('#close');
-const loader = document.querySelector('#loader');
-const toast = document.querySelector('#toast');
-const userName = document.querySelector('#user_name');
-const quantity = document.querySelector('#quantity');
-const subtotal = document.querySelector('#subtotal');
-const discount = document.querySelector('#discount');
-const discountContainer = document.querySelector('#discount-container');
-const couponNominal = document.querySelector('#coupon-nominal');
-const specialPrice = document.querySelector('#special-price');
-const total = document.querySelector('#total');
-const couponCode = document.querySelector('#coupon');
-const apply = document.querySelector('#apply-code');
+const slide = document.querySelector("#slide");
+const qr = document.querySelector("#qr-code");
+const cancel = document.querySelector("#cancel");
+const modal = document.querySelector("#payment-modal");
+const printing = document.querySelector("#printing-modal");
+const ty = document.querySelector("#ty-modal");
+const print = document.querySelector("#print");
+const close = document.querySelector("#close");
+const loader = document.querySelector("#loader");
+const toast = document.querySelector("#toast");
+const userName = document.querySelector("#user_name");
+const quantity = document.querySelector("#quantity");
+const subtotal = document.querySelector("#subtotal");
+const discount = document.querySelector("#discount");
+const discountContainer = document.querySelector("#discount-container");
+const couponNominal = document.querySelector("#coupon-nominal");
+const specialPrice = document.querySelector("#special-price");
+const total = document.querySelector("#total");
+const couponCode = document.querySelector("#coupon");
+const apply = document.querySelector("#apply-code");
 const params = new URLSearchParams(location.search);
-const transaction = params.get('transaction');
-const bgImages = localStorage.getItem('bg');
+const transaction = params.get("transaction");
+const bgImages = localStorage.getItem("bg");
 
 let slideIndex = 1;
 let name;
 let paymentQr;
 let qrImage;
 let totalPayment = 0;
-let paymentStatus = 'unpaid';
+let paymentStatus = "unpaid";
 let discountId = [];
 let photos = [];
 
@@ -49,14 +53,19 @@ if (!transaction) {
 }
 
 function changeBackgroundImage(newImageUrl) {
-  document.body.style.setProperty('--background-image-url', `url('${newImageUrl}')`);
+  if (newImageUrl && newImageUrl != "") {
+    document.body.style.setProperty(
+      "--background-image-url",
+      `url('${newImageUrl}')`
+    );
+  }
 }
 
 function generateSlideImage(count, idx, src) {
   let numbers = ``;
   for (let i = 0; i < count; i++) {
     numbers += `
-    <div class="${i == idx ? 'active-number' : 'non-active-number'}">
+    <div class="${i == idx ? "active-number" : "non-active-number"}">
       ${i + 1}
     </div>
     `;
@@ -72,42 +81,42 @@ function generateSlideImage(count, idx, src) {
 }
 
 function codeIsInvalid() {
-  toast.innerHTML = 'Code is invalid.';
-  toast.className = 'show';
+  toast.innerHTML = "Code is invalid.";
+  toast.className = "show";
   setTimeout(function () {
-    toast.className = toast.className.replace('show', '');
+    toast.className = toast.className.replace("show", "");
   }, 1200);
 }
 
 function paymentFailed() {
-  toast.innerHTML = 'Payment failed, please contact admin.';
-  toast.className = 'show';
+  toast.innerHTML = "Payment failed, please contact admin.";
+  toast.className = "show";
   setTimeout(function () {
-    toast.className = toast.className.replace('show', '');
+    toast.className = toast.className.replace("show", "");
   }, 1200);
 }
 
 function noDataToast() {
-  toast.innerHTML = 'Data not found.';
-  toast.className = 'show';
+  toast.innerHTML = "Data not found.";
+  toast.className = "show";
 
   setTimeout(function () {
-    toast.className = toast.className.replace('show', '');
+    toast.className = toast.className.replace("show", "");
     window.location.href = `../scan/index.html`;
   }, 1200);
 }
 
 function showToast() {
-  toast.className = 'show';
+  toast.className = "show";
 
   setTimeout(function () {
-    toast.className = toast.className.replace('show', '');
+    toast.className = toast.className.replace("show", "");
   }, 3000);
 }
 
 function parseRupiahString(rupiahString) {
   // Remove "Rp" and any thousands separators
-  const cleanedString = rupiahString.replace(/[^\d]/g, '');
+  const cleanedString = rupiahString.replace(/[^\d]/g, "");
 
   // Convert the cleaned string to a number
   const numberValue = parseFloat(cleanedString);
@@ -118,20 +127,20 @@ function parseRupiahString(rupiahString) {
 function formatRupiah(number) {
   let strNumber = number.toString();
 
-  let parts = strNumber.split('.');
+  let parts = strNumber.split(".");
   let integerPart = parts[0];
 
-  integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-  let result = 'Rp' + integerPart;
+  let result = "Rp" + integerPart;
 
   return result;
 }
 
 function formatDate(date) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+  const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
 }
@@ -147,13 +156,13 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-  let slides = document.getElementsByClassName('mySlides');
+  let slides = document.getElementsByClassName("mySlides");
   if (slides.length > 0) {
     for (let i = 0; i < slides.length; i++) {
-      slides[i].classList.remove('active');
-      slides[i].classList.remove('second');
-      slides[i].classList.remove('fade');
-      slides[i].classList.remove('fade-second');
+      slides[i].classList.remove("active");
+      slides[i].classList.remove("second");
+      slides[i].classList.remove("fade");
+      slides[i].classList.remove("fade-second");
     }
     if (n > slides.length) {
       slideIndex = 1;
@@ -164,11 +173,11 @@ function showSlides(n) {
     if (next > slides.length) {
       next = 1;
     }
-    slides[slideIndex - 1].classList.add('active');
-    slides[slideIndex - 1].classList.add('fade');
+    slides[slideIndex - 1].classList.add("active");
+    slides[slideIndex - 1].classList.add("fade");
     if (slides.length > 1) {
-      slides[next - 1].classList.add('second');
-      slides[next - 1].classList.add('fade-second');
+      slides[next - 1].classList.add("second");
+      slides[next - 1].classList.add("fade-second");
     }
   }
 }
@@ -179,34 +188,42 @@ async function loadPayment() {
     if (!data) {
       noDataToast();
     }
-    userName.innerHTML = 'Hi, ' + data.transaction.user_name;
+    userName.innerHTML = "Hi, " + data.transaction.user_name;
     name = data.transaction.user_name;
     subtotal.innerHTML = formatRupiah(data.transaction.total);
-    quantity.innerHTML = data.transaction.quantity + ' Pax';
+    quantity.innerHTML = data.transaction.quantity + " Pax";
     let discTotal = 0;
     if (data?.transaction?.discount_id) {
-      const discountData = await getDiscountDetail(data.transaction.discount_id);
+      const discountData = await getDiscountDetail(
+        data.transaction.discount_id
+      );
       if (discountData) {
         const today = new Date();
         const expired = new Date(discountData.endDate);
-        if (data.transaction.total >= discountData.min_transaction && today > expired) {
+        if (
+          data.transaction.total >= discountData.min_transaction &&
+          today > expired
+        ) {
           discountId.push(discountData.id);
           if (discountData.is_fixed) discTotal = discountData.value;
           else discTotal = data.transaction.total * (discountData.value / 100);
-          discountContainer.style.display = 'flex';
-          discount.innerHTML = '- ' + formatRupiah(discTotal);
+          discountContainer.style.display = "flex";
+          discount.innerHTML = "- " + formatRupiah(discTotal);
         }
       }
     }
-    const paymentTotal = data.transaction.total - discTotal < 0 ? 0 : data.transaction.total - discTotal;
+    const paymentTotal =
+      data.transaction.total - discTotal < 0
+        ? 0
+        : data.transaction.total - discTotal;
     totalPayment = paymentTotal;
-    total.innerHTML = '<b>' + formatRupiah(paymentTotal);
-    +'</b>';
+    total.innerHTML = "<b>" + formatRupiah(paymentTotal);
+    +"</b>";
     const { downloadFileAsBlob } = await initDrive();
     const prints = data?.prints ?? [];
     let pl = prints?.length ?? 0;
     for (let idx = 0; idx < pl; idx++) {
-      const image = await downloadFileAsBlob(prints[idx]['drive_id']);
+      const image = await downloadFileAsBlob(prints[idx]["drive_id"]);
       slide.innerHTML += generateSlideImage(pl, idx, image);
       photos.push(image);
     }
@@ -215,7 +232,7 @@ async function loadPayment() {
     noDataToast();
     console.log(e);
   } finally {
-    loader.style.display = 'none';
+    loader.style.display = "none";
   }
 }
 
@@ -226,7 +243,7 @@ async function getDiscountByCode(code) {
   } catch (e) {
     codeIsInvalid();
   } finally {
-    loader.style.display = 'none';
+    loader.style.display = "none";
   }
 }
 
@@ -246,17 +263,17 @@ async function updateTransaction() {
       transactionId: transaction,
       total: totalPayment,
       discountId,
-      status: 'PAID',
+      status: "PAID",
     };
     const updateStatus = await updateStatusTransaction(req);
     if (updateStatus) {
-      modal.classList.remove('show');
-      printing.classList.add('show');
+      modal.classList.remove("show");
+      printing.classList.add("show");
       await printPhoto();
     }
   } catch (e) {
   } finally {
-    loader.style.display = 'none';
+    loader.style.display = "none";
   }
 }
 
@@ -265,16 +282,20 @@ async function paymentCheck() {
     if (paymentQr) {
       const reqDate = new Date(paymentQr.qris_request_date);
       const formattedDate = formatDate(reqDate);
-      loader.style.display = 'none';
-      const status = await checkStatus(paymentQr.qris_invoiceid, 1, formattedDate);
-      if (status.status == 'success' && status.data.qris_status == 'paid') {
-        paymentStatus = 'paid';
+      loader.style.display = "none";
+      const status = await checkStatus(
+        paymentQr.qris_invoiceid,
+        1,
+        formattedDate
+      );
+      if (status.status == "success" && status.data.qris_status == "paid") {
+        paymentStatus = "paid";
       }
     }
   } catch (e) {
     paymentFailed();
   } finally {
-    loader.style.display = 'none';
+    loader.style.display = "none";
   }
 }
 
@@ -284,7 +305,7 @@ async function scheduleChecks() {
 
   const checkAndReschedule = async () => {
     await paymentCheck();
-    if (paymentStatus == 'paid') {
+    if (paymentStatus == "paid") {
       await updateTransaction();
       return;
     }
@@ -301,7 +322,7 @@ async function scheduleChecks() {
     if (checksPerformed < 30) {
       setTimeout(checkAndReschedule, interval);
     } else {
-      console.log('Maximum number of checks reached.');
+      console.log("Maximum number of checks reached.");
     }
   };
 
@@ -310,69 +331,64 @@ async function scheduleChecks() {
 }
 
 async function printPhoto() {
-  const printerName = localStorage.getItem('printer');
-  var options = {
-    silent: true,
-    color: true,
-    printBackground: printerName,
-    deviceName: selectedPrinter,
-    margin: {
-      marginType: 'printableArea',
-    },
-    landscape: false,
-    pagesPerSheet: 1,
-    copies: 1,
-  };
+  try {
+    const printerName = localStorage.getItem("printer");
+    var options = {
+      silent: true,
+      color: true,
+      printBackground: printerName,
+      deviceName: selectedPrinter,
+      margin: {
+        marginType: "printableArea",
+      },
+      landscape: false,
+      pagesPerSheet: 1,
+      copies: 1,
+    };
 
-  const base64Image = photos[slideIndex - 1];
+    const base64Image = photos[slideIndex - 1];
 
-  let printWindow = new BrowserWindow({
-    useContentSize: true,
-    show: false,
-  });
+    let printWindow = new BrowserWindow({
+      useContentSize: true,
+      show: false,
+    });
 
-  const htmlContent = `
-  <html>
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>My Title</title>
-      <style type="text/css">
-        @page {
-          size: 4in 6in; /* Set the page size to 4x6 inches */
-          margin: 0;
-        }
-        img {
-          page-break-before: always;
-        }
-        body {
-          margin: 0;
-          padding: 0;
-        }
-      </style>
-    </head>
-    <body>
-      <img style="margin: 0; padding: 0;" src="${base64Image}" />
-    </body>
-  </html>
-`;
+    const htmlContent = `data:text/html;charset=utf-8,<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    <title>Milio Photobooth</title> 
+    <style type="text/css">
+    @page {
+      size: 4in 6in; /* Set the page size to 4x6 inches */
+      margin: 0;
+    }
+    img {
+      page-break-before: always;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+    </head> 
+    <body style="margin: 0; padding: 0;">
+    <img style="margin: 0; padding: 0;" src="${base64Image}" />
+    </body>`;
 
-  await printWindow.loadURL(htmlContent);
+    await printWindow.loadURL(htmlContent);
 
-  printWindow.webContents.print(options, async (success, failureReason) => {
-    if (!success) console.log(failureReason);
-    const stationID = localStorage.getItem('stationID');
-    await printPaper(stationID);
-    job.removeAllListeners();
-    printer.destroy();
-    printing.classList.remove('show');
-    const userTy = document.querySelector('ty-name');
-    userTy.innerHTML = userName.innerHTML;
-    ty.classList.add('show');
-    setTimeout(function () {
-      window.location.href = `../scan/index.html`;
-    }, 1000);
-  });
+    printWindow.webContents.print(options, async (success, failureReason) => {
+      if (!success) console.log(failureReason);
+      const stationID = localStorage.getItem("stationID");
+      await printPaper(stationID);
+      printing.classList.remove("show");
+      const userTy = document.querySelector("ty-name");
+      userTy.innerHTML = userName.innerHTML;
+      ty.classList.add("show");
+      setTimeout(function () {
+        window.location.href = `../scan/index.html`;
+      }, 1000);
+    });
+  } catch (err) {}
 }
 
 loadPayment();
@@ -384,25 +400,28 @@ if (bgImages) {
   }
 }
 
-couponCode.addEventListener('keyup', async (event) => {
-  if (event.key === 'Enter' || event.keyCode === 13) {
+couponCode.addEventListener("keyup", async (event) => {
+  if (event.key === "Enter" || event.keyCode === 13) {
     const code = couponCode.value;
     const discountData = await getDiscountByCode(couponCode.value);
     if (discountData) {
       const subtotalValue = parseRupiahString(subtotal.innerHTML);
       const totalPay = parseRupiahString(total.innerHTML);
-      if (subtotalValue >= discountData.min_transaction && !code.includes(discountData.used_codes)) {
+      if (
+        subtotalValue >= discountData.min_transaction &&
+        !code.includes(discountData.used_codes)
+      ) {
         let totalDisc = 0;
         if (discountData.is_fixed) totalDisc = discountData.value;
         else totalDisc = totalPay * (discountData.value / 100);
         totalPayment = totalPay - totalDisc < 0 ? 0 : totalPay - totalDisc < 0;
-        discountContainer.style.display = 'flex';
-        couponNominal.innerHTML = '- ' + formatRupiah(totalDisc);
+        discountContainer.style.display = "flex";
+        couponNominal.innerHTML = "- " + formatRupiah(totalDisc);
         specialPrice.innerHTML = `
         <div class="price-text">Special Price</div>
         <div class="price">${formatRupiah(total)}</div>
         `;
-        specialPrice.style.display = 'block';
+        specialPrice.style.display = "block";
         discountId.push(discountData.id);
       }
     } else {
@@ -411,22 +430,25 @@ couponCode.addEventListener('keyup', async (event) => {
   }
 });
 
-apply.addEventListener('click', async () => {
+apply.addEventListener("click", async () => {
   const code = couponCode.value;
   const discountData = await getDiscountByCode(couponCode.value);
   if (discountData) {
-    if (subtotalValue >= discountData.min_transaction && !code.includes(discountData.used_codes)) {
+    if (
+      subtotalValue >= discountData.min_transaction &&
+      !code.includes(discountData.used_codes)
+    ) {
       let totalDisc = 0;
       if (discountData.is_fixed) totalDisc = discountData.value;
       else totalDisc = totalPay * (discountData.value / 100);
       totalPayment = totalPay - totalDisc < 0 ? 0 : totalPay - totalDisc < 0;
-      discountContainer.style.display = 'flex';
-      couponNominal.innerHTML = '- ' + formatRupiah(totalDisc);
+      discountContainer.style.display = "flex";
+      couponNominal.innerHTML = "- " + formatRupiah(totalDisc);
       specialPrice.innerHTML = `
       <div class="price-text">Special Price</div>
       <div class="price">${formatRupiah(total)}</div>
       `;
-      specialPrice.style.display = 'block';
+      specialPrice.style.display = "block";
       discountId.push(discountData.id);
     }
   } else {
@@ -434,26 +456,26 @@ apply.addEventListener('click', async () => {
   }
 });
 
-cancel.addEventListener('click', () => {
-  window.location.href = '../scan/index.html';
+cancel.addEventListener("click", () => {
+  window.location.href = "../scan/index.html";
 });
 
-print.addEventListener('click', async () => {
+print.addEventListener("click", async () => {
   if (!paymentQr) {
-    loader.style.display = 'flex';
+    loader.style.display = "flex";
     const data = await getPayment();
     if (!data) {
       return;
     }
     paymentQr = data;
     qrImage = await generateQR(data.qris_content);
-    loader.style.display = 'none';
+    loader.style.display = "none";
     await scheduleChecks();
   }
   qr.innerHTML += `<img src="${qrImage}" />`;
-  modal.classList.add('show');
+  modal.classList.add("show");
 });
 
-close.addEventListener('click', () => {
-  modal.classList.remove('show');
+close.addEventListener("click", () => {
+  modal.classList.remove("show");
 });

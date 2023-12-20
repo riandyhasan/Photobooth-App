@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const axios = require("axios");
-const baseUrl = process.env.BASE_URL;
+const baseUrl = "https://api.miliostation.com";
 
 async function getTransactionDetail(id) {
   try {

@@ -53,11 +53,15 @@ body::after {
 .top-asset {
     position: absolute;
     top: 0;
+    z-index: 4;
+    width: 100%;
 }
 
 .bottom-asset {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
+    z-index: 1;
+    width: 100%;
 }
 
 .layout {
@@ -131,6 +135,22 @@ body::after {
     padding: 0.5rem 1rem;
     color: #DB2662;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.setting-row-icons {
+    display: flex;
+    width: 95%;
+    flex-direction: row;;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    gap: 1rem;
+}
+
+.setting-icons {
+    width: 36px;
+    height: 36px;
     cursor: pointer;
 }
 
