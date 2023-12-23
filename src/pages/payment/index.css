@@ -172,6 +172,7 @@ body::after {
     display: block;
     opacity: 1;
 }
+
 .modal-content {
     background-color: #DB2662;
     margin: 15% auto;
@@ -181,6 +182,7 @@ body::after {
     flex-direction: column;
     transition: opacity 0.3s ease;
 }
+
 .modal-header {
     display: flex;
     position: relative;
@@ -188,6 +190,7 @@ body::after {
     justify-content: center;
     padding: 15px 20px;
 }
+
 .modal-title {
     font-family: 'Gothic', sans-serif;
     font-size: 24px;
@@ -204,7 +207,28 @@ body::after {
 .close img {
     width: 25px;
 }
+
+.qris-modal-content {
+    background-color: #DB2662;
+    margin: 15% auto;
+    width: 470px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease;
+}
+
+.qris-modal-header {
+    display: flex;
+    width: 450px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+}
+
 .qris {
+    width: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -212,6 +236,12 @@ body::after {
     border: 10px solid #FDF04C;
     border-radius: 20px;
 }
+
+.qris img {
+    width: 450px;
+    height: 450px;
+}
+
 .layout {
     width: 100%;
     height: 100vh;
@@ -355,12 +385,13 @@ body::after {
 }
 .mySlides {
     display: none;
-    max-width: 420px;
+    max-width: 600px;
     position: absolute;
     transition: transform 0.5s;
 }
 .mySlides.active {
     top: 0;
+    max-width: 800px;
     display: block;
     position: absolute;
     z-index: 2;

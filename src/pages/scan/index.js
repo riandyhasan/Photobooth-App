@@ -11,8 +11,9 @@ const wnd = remote.getCurrentWindow();
 
 // Scanner
 let config = {
-  fps: 10,
-  qrbox: { width: 350, height: 350 },
+  fps: 15,
+  qrbox: 400,
+  aspectRatio: 1,
   rememberLastUsedCamera: true,
   supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
 };
@@ -48,6 +49,7 @@ async function confirmClose() {
       buttons: ["Yes", "No"],
       title: "Confirmation",
       message: "Are you sure you want to close the application?",
+      icon: '../../assets/images/logo.ico'
     });
     if (choice.response === 0) {
       const stationID = localStorage.getItem("stationID");

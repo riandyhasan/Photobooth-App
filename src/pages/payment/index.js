@@ -11,11 +11,14 @@ const {
   generateQR,
   checkStatus,
 } = require("../../services/qris.js");
-var Printer = require("zuzel-printer");
+
+// Electron
 const remote = require("@electron/remote");
 const BrowserWindow = remote.BrowserWindow;
 
+// DOM manipulation
 const slide = document.querySelector("#slide");
+const next = document.querySelector("#next");
 const qr = document.querySelector("#qr-code");
 const cancel = document.querySelector("#cancel");
 const modal = document.querySelector("#payment-modal");
@@ -35,6 +38,9 @@ const specialPrice = document.querySelector("#special-price");
 const total = document.querySelector("#total");
 const couponCode = document.querySelector("#coupon");
 const apply = document.querySelector("#apply-code");
+const loadingMsg = document.querySelector("#loading-msg");
+
+// Global variables
 const params = new URLSearchParams(location.search);
 const transaction = params.get("transaction");
 const bgImages = localStorage.getItem("bg");
@@ -183,6 +189,7 @@ function showSlides(n) {
 }
 
 async function loadPayment() {
+  loadingMsg.innerHTML = 'Preparing your photo'
   try {
     const data = await getTransactionDetail(transaction);
     if (!data) {
@@ -219,9 +226,16 @@ async function loadPayment() {
     totalPayment = paymentTotal;
     total.innerHTML = "<b>" + formatRupiah(paymentTotal);
     +"</b>";
+    specialPrice.innerHTML = `
+    <div class="price-text">Special Price</div>
+    <div class="price">${formatRupiah(paymentTotal)}</div>
+    `;
     const { downloadFileAsBlob } = await initDrive();
     const prints = data?.prints ?? [];
     let pl = prints?.length ?? 0;
+    if (pl < 2) {
+      next.style.display = "none";
+    }
     for (let idx = 0; idx < pl; idx++) {
       const image = await downloadFileAsBlob(prints[idx]["drive_id"]);
       slide.innerHTML += generateSlideImage(pl, idx, image);
@@ -462,6 +476,7 @@ cancel.addEventListener("click", () => {
 
 print.addEventListener("click", async () => {
   if (!paymentQr) {
+    loadingMsg.innerHTML = 'Preparing your payment';
     loader.style.display = "flex";
     const data = await getPayment();
     if (!data) {

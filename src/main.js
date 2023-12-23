@@ -2,16 +2,15 @@ const { app, BrowserWindow, ipcMain, dialog, screen } = require("electron");
 require("@electron/remote/main").initialize();
 const path = require("path");
 
-let mainWindow;
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width,
+    height,
     autoHideMenuBar: true,
-    frame: true,
-    icon: "./src/assets/images/logo.ico",
+    frame: false,
+    icon: path.join(__dirname, '/assets/images/logo.ico'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

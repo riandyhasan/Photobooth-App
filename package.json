@@ -35,7 +35,7 @@
     "productName": "Milio Photobooth App",
     "copyright": "Copyright © 2023 Milio",
     "mac": {
-      "icon": "./src/assets/images/logo.png",
+      "icon": "./src/assets/images/logo.ico",
       "target": [
         "zip",
         "dmg"
@@ -73,6 +73,16 @@
       "createStartMenuShortcut": false,
       "installerHeaderIcon": "./src/assets/images/logo.ico",
       "deleteAppDataOnUninstall": true
+    },
+    "files": [
+      "./build/**/*",
+      "./dist/**/*",
+      "./node_modules/**/*",
+      "./src/**/*",       
+      "*.js"
+    ],
+    "directories": {
+      "buildResources": "src"
     },
     "publish": [
       {

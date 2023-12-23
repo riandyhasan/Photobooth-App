@@ -123,37 +123,36 @@ body::after {
 }
 
 #reader {
-    width: 500px!important;
+    width: 400px!important;
     border: none !important;
     display: flex !important;
     align-items: center !important;
-    background-color: white !important;
     border: 15px solid #DB2662 !important;
     border-radius: 20px !important;
 }
 
 #reader video {
     width: 100% !important;
-    border-radius: 20px !important;
+    /* border-radius: 20px !important; */
 }
 
 #qr-shaded-region {
     border-color: white !important;
-    border-width: 40px 60px !important;  
+    /* border-width: 40px 80px !important;   */
     border-radius: 20px !important;
 }
 
 #qr-shaded-region div {
-    background-color: #4285FA !important;
+    background: none !important;
 }
 
-#qr-shaded-region div:nth-child(-n+4) {
+/* #qr-shaded-region div:nth-child(-n+4) {
     height: 10px !important;
 }
 
 #qr-shaded-region div:nth-child(n+5) {
     width: 10px !important;
-}
+} */
 
 
 img[alt="Info icon"] {

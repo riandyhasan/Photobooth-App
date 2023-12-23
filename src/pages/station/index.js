@@ -46,6 +46,7 @@ async function confirmClose() {
       buttons: ["Yes", "No"],
       title: "Confirmation",
       message: "Are you sure you want to close the application?",
+      icon: '../../assets/images/logo.ico'
     });
     if (choice.response === 0) {
       const stationID = localStorage.getItem("stationID");
@@ -183,7 +184,7 @@ getActiveCamera();
 getActivePrinter();
 
 buttonOpen.addEventListener("click", async () => {
-  if (!selectedCamera && !selectedPrinter) {
+  if (!selectedCamera || !selectedPrinter) {
     toast.innerHTML = "You have not configured the camera and printer.";
     showToast();
     return;

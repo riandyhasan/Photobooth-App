@@ -12,15 +12,23 @@
 
      <!-- Loader -->
      <div id="loader" class="loader-container">
-      <div class="loader" ></div>
+      <div class="dots-loading">
+        <div>
+          <span class="dots"></span>
+          <span class="dots"></span>
+          <span class="dots"></span>
+        </div>
+      <div class="printing-text" id="loading-msg">Preparing your photo</div>
+    </div>
+      <!-- <div class="loader" ></div> -->
      </div>
 
     <!-- The Modal -->
     <div id="payment-modal" class="modal">
 
       <!-- Modal content -->
-      <div class="modal-content pop-up">
-        <div class="modal-header">
+      <div class="qris-modal-content pop-up">
+        <div class="qris-modal-header">
           <div class="close" id="close">
             <img src="../../assets/images/close.svg" />
           </div>
@@ -57,7 +65,6 @@
 
     <img src="../../assets/images/merch.png" style="width: 70%;" />
 
-
     </div>
 
       <img src="../../assets/images/top.svg" class="top-asset" />
@@ -69,7 +76,7 @@
                
             </div>
             <!-- Next and previous buttons -->
-            <a class="next" onclick="plusSlides(1)">
+            <a class="next" onclick="plusSlides(1)" id="next">
               <img src="../../assets/images/next.svg" alt="next" />
             </a>
          </div>
@@ -84,9 +91,9 @@
               <div>Subtotal</div>
               <div id="subtotal">Rp0</div>
             </div>
-            <div class="payment-row" id="discount-container" style="display: none;">
+            <div class="payment-row" id="discount-container">
               <div>Voucher Disc</div>
-              <div id="discount"></div>
+              <div id="discount">- Rp0</div>
             </div>
             <div class="line"></div>
             <div class="payment-row">
@@ -98,11 +105,11 @@
                 <input type="text" name="coupon" id="coupon" placeholder="Coupon" />
                 <button id="apply-code">Apply</button>
               </div>
-              <div id="coupon-nominal"></div>
+              <div id="coupon-nominal">- Rp0</div>
             </div>
-            <div class="special-price" id="special-price" style="display: none;">
+            <div class="special-price" id="special-price">
               <div class="price-text">Special Price</div>
-              <div class="price">Rp80.000</div>
+              <div class="price">Rp0</div>
             </div>
             <div class="buttons">
               <div class="cancel" id="cancel">
