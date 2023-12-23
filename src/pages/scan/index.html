@@ -10,6 +10,67 @@
   <!-- Toast -->
   <div id="toast">The QR code is not valid, please contact the administrator.</div>
 
+  <!-- The Setting -->
+  <div class="setting" id="setting">
+    <img src="../../assets/images/setting.png" />
+  </div>
+
+  <!-- Setting Password Modal -->
+  <div id="setting-password-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content pop-up">
+       <div class="modal-header">
+          <div class="close" id="close-setting-password">
+            <img src="../../assets/images/close.svg" />
+          </div>
+          <h2 class="modal-title">Input Setting Password</h2>
+       </div>
+       <div class="station-input">
+          <input id="passwordInput" type="password" />
+          <button id="passwordButton">Submit</button>
+       </div>
+    </div>
+ </div>
+
+ <!-- Setting Modal -->
+ <div id="setting-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content pop-up">
+       <div class="modal-header">
+          <div class="close" id="close-setting">
+             <img src="../../assets/images/close.svg" />
+          </div>
+          <h2 class="modal-title">Setting</h2>
+       </div>
+       <div class="setting-container">
+          <div class="setting-row">
+             <div>Camera</div>
+             <select id="selectCamera">
+             </select>
+          </div>
+          <div class="setting-row">
+             <div>Printer</div>
+             <select id="selectPrinter">
+             </select>
+          </div>
+          <div class="setting-row-icons">
+             <div class="setting-icons" id="minimize">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                   <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="32"/>
+                   <path fill="#FFFFFF" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M336 256H176"/>
+                </svg>
+             </div>
+             <div class="setting-icons" id="close">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                   <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="32"/>
+                   <path fill="#FFFFFF" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/>
+                </svg>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
   <img src="../../assets/images/top.svg" class="top-asset" />
   <img src="../../assets/images/vip.svg" class="img-vip" /> 
   <div class="layout">

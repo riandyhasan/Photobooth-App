@@ -10,6 +10,7 @@ const {
   openStation,
   closeStation,
 } = require("../../services/admin-api");
+const { checkPassword } = require("../../services/auth");
 
 let stationName;
 let selectedCamera = localStorage.getItem("camera");
@@ -19,20 +20,24 @@ let printerSelection = "";
 
 const buttonOpen = document.querySelector("#open");
 const buttonStation = document.querySelector("#stationNameButton");
+const buttonPassword = document.querySelector("#passwordButton");
 const setting = document.querySelector("#setting");
 const settingModal = document.querySelector("#setting-modal");
 const stationModal = document.querySelector("#station-modal");
 const confrimationModal = document.querySelector("#create-station-modal");
+const settingPasswordModal = document.querySelector("#setting-password-modal");
 const closeSetting = document.querySelector("#close-setting");
 const toast = document.querySelector("#toast");
 const station = document.querySelector("#stationName");
 const stationNameInput = document.querySelector("#stationNameInput");
+const passwordInput = document.querySelector("#passwordInput");
 const cameraSelect = document.querySelector("#selectCamera");
 const printerSelect = document.querySelector("#selectPrinter");
 const confirmYes = document.querySelector("#confirmYes");
 const confirmNo = document.querySelector("#confirmNo");
 const minimize = document.querySelector("#minimize");
 const close = document.querySelector("#close");
+const closeSettingPasswords = document.querySelector("#close-setting-password");
 
 async function confirmClose() {
   try {
@@ -70,7 +75,6 @@ async function getActiveCamera() {
 
 async function getActivePrinter() {
   const printers = await wnd.webContents.getPrintersAsync();
-  console.log(printers);
   if (printers.length > 0) {
     printers.forEach((device) => {
       printerSelection += `<option value="${device.name}">${device.displayName}</option>`;
@@ -94,6 +98,18 @@ function changeBackgroundImage(newImageUrl) {
       "--background-image-url",
       `url('${newImageUrl}')`
     );
+  }
+}
+
+function openSetting(password) {
+  const isAuth = checkPassword(password);
+  if (isAuth){
+    settingModal.style.display = "block";
+    settingPasswordModal.style.display = "none";
+    passwordInput.value = "";
+  } else {
+    toast.innerHTML = "Wrong password.";
+    showToast();
   }
 }
 
@@ -167,7 +183,7 @@ getActiveCamera();
 getActivePrinter();
 
 buttonOpen.addEventListener("click", async () => {
-  if (!selectedCamera || !selectedPrinter) {
+  if (!selectedCamera && !selectedPrinter) {
     toast.innerHTML = "You have not configured the camera and printer.";
     showToast();
     return;
@@ -180,7 +196,7 @@ buttonOpen.addEventListener("click", async () => {
 });
 
 setting.addEventListener("click", () => {
-  settingModal.style.display = "block";
+  settingPasswordModal.style.display = "block";
 });
 
 closeSetting.addEventListener("click", () => {
@@ -191,9 +207,20 @@ buttonStation.addEventListener("click", async () => {
   await checkExistingStation();
 });
 
+buttonPassword.addEventListener("click", () => {
+  const pass = passwordInput.value;
+  openSetting(pass);
+});
+
 stationNameInput.addEventListener("keydown", async (event) => {
   if (event.key === "Enter") {
     await checkExistingStation();
+  }
+});
+
+passwordInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    openSetting(event.target.value);
   }
 });
 
@@ -222,3 +249,8 @@ minimize.addEventListener("click", () => {
 close.addEventListener("click", async () => {
   await confirmClose();
 });
+
+closeSettingPasswords.addEventListener("click", () => {
+  settingPasswordModal.style.display = "none";
+  passwordInput.value = "";
+})

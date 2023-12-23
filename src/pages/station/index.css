@@ -59,7 +59,7 @@ body::after {
 
 .bottom-asset {
     position: absolute;
-    bottom: 20px;
+    bottom: 0px;
     z-index: 1;
     width: 100%;
 }
@@ -261,7 +261,7 @@ body::after {
     border-radius: 2px;
     padding: 16px;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 47%;
     top: 30px;
     font-family: 'Gothic', sans-serif;
