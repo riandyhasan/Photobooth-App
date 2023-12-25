@@ -4,7 +4,7 @@ const {
   getPromoByCode,
   updateStatusTransaction,
 } = require("../../services/api.js");
-const { printPaper } = require("../../services/admin-api.js");
+const { getStationById, printPaper } = require("../../services/admin-api.js");
 const initDrive = require("../../services/google.js");
 const {
   createInvoice,
@@ -18,6 +18,7 @@ const BrowserWindow = remote.BrowserWindow;
 
 // DOM manipulation
 const slide = document.querySelector("#slide");
+const merch = document.querySelector("#merch-images");
 const next = document.querySelector("#next");
 const qr = document.querySelector("#qr-code");
 const cancel = document.querySelector("#cancel");
@@ -185,6 +186,28 @@ function showSlides(n) {
     if (slides.length > 1) {
       slides[next - 1].classList.add("second");
     }
+  }
+}
+
+async function loadMerch() {
+  const stationID = localStorage.getItem("stationID");
+  if (!stationID) {
+    return;
+  }
+  try {
+    const data = await getStationById(stationID);
+    const dataStation =  data.data.station;
+    if (dataStation) {
+      if (dataStation.merch_images && dataStation.merch_images.length > 0) {
+        let innerMerch = '';
+        for (const image of dataStation.merch_images) {
+          innerMerch +=  `<img src="${image}" />`;
+        }
+        merch.innerHTML = innerMerch;
+      }
+    }
+  } catch(e){
+
   }
 }
 
@@ -411,6 +434,7 @@ async function printPhoto() {
 }
 
 loadPayment();
+loadMerch();
 
 if (bgImages) {
   const bg = JSON.parse(bgImages);
@@ -418,7 +442,6 @@ if (bgImages) {
     changeBackgroundImage(bg[2]);
   }
 }
-
 couponCode.addEventListener("keyup", async (event) => {
   if (event.key === "Enter" || event.keyCode === 13) {
     const code = couponCode.value;

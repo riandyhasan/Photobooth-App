@@ -125,6 +125,43 @@ body::after {
     margin-top: 20px;
 }
 
+.merch-layout {
+    display: flex;
+    width: 100%;
+    gap: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.merch-images {
+    max-height: 485px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    padding-right: 4rem;
+}
+
+/* Custom scrollbar styles */
+.merch-images::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+  
+.merch-images::-webkit-scrollbar-thumb {
+    background: #606060; /* Color of the scrollbar thumb */
+    border-radius: 5px; /* Rounded corners on the scrollbar thumb */
+}
+
+.merch-images::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb on hover */
+}
+  
+.merch-images img {
+    width: 100%;
+    display: block; 
+}
+
 .dots-loading {
     position: absolute;
     top: 10%;

@@ -25,6 +25,21 @@ async function checkStationName(name) {
   }
 }
 
+async function getStationById(id) {
+  try {
+    const response = await axios.get(`${baseUrl}/station/${id}`, {
+      headers: headers,
+    });
+    if (response.status == 200) {
+      return response.data;
+    }
+    return null;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
 async function createStation(data) {
   try {
     const response = await axios.post(`${baseUrl}/station`, data, {
@@ -87,4 +102,5 @@ module.exports = {
   openStation,
   closeStation,
   printPaper,
+  getStationById
 };
