@@ -40,13 +40,15 @@ const couponCode = document.querySelector("#coupon");
 const apply = document.querySelector("#apply-code");
 const loadingMsg = document.querySelector("#loading-msg");
 
-// Global variables
+// Global constants
 const params = new URLSearchParams(location.search);
 const transaction = params.get("transaction");
 const bgImages = localStorage.getItem("bg");
 
+// Global variables
+let name = '';
 let slideIndex = 1;
-let name;
+let isUseCode = false;
 let paymentQr;
 let qrImage;
 let totalPayment = 0;
@@ -167,8 +169,7 @@ function showSlides(n) {
     for (let i = 0; i < slides.length; i++) {
       slides[i].classList.remove("active");
       slides[i].classList.remove("second");
-      slides[i].classList.remove("fade");
-      slides[i].classList.remove("fade-second");
+      slides[i].classList.remove("slide-left");
     }
     if (n > slides.length) {
       slideIndex = 1;
@@ -180,10 +181,9 @@ function showSlides(n) {
       next = 1;
     }
     slides[slideIndex - 1].classList.add("active");
-    slides[slideIndex - 1].classList.add("fade");
+    slides[slideIndex - 1].classList.add("slide-left");
     if (slides.length > 1) {
       slides[next - 1].classList.add("second");
-      slides[next - 1].classList.add("fade-second");
     }
   }
 }
@@ -273,11 +273,16 @@ async function getPayment() {
 
 async function updateTransaction() {
   try {
+    let promoCode = null;
+    if (couponCode.value && couponCode.value !== "" && isUseCode){
+      promoCode = couponCode.value;
+    }
     const req = {
       transactionId: transaction,
       total: totalPayment,
       discountId,
       status: "PAID",
+      promoCode
     };
     const updateStatus = await updateStatusTransaction(req);
     if (updateStatus) {
@@ -396,7 +401,7 @@ async function printPhoto() {
       await printPaper(stationID);
       printing.classList.remove("show");
       const userTy = document.querySelector("ty-name");
-      userTy.innerHTML = userName.innerHTML;
+      userTy.innerHTML = name;
       ty.classList.add("show");
       setTimeout(function () {
         window.location.href = `../scan/index.html`;
@@ -464,6 +469,7 @@ apply.addEventListener("click", async () => {
       `;
       specialPrice.style.display = "block";
       discountId.push(discountData.id);
+      isUseCode = true;
     }
   } else {
     codeIsInvalid();

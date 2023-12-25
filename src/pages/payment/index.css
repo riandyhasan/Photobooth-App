@@ -383,12 +383,14 @@ body::after {
     align-items: center;
     justify-content: center;
 }
+
 .mySlides {
     display: none;
-    max-width: 600px;
+    width: 70%;
     position: absolute;
     transition: transform 0.5s;
 }
+
 .mySlides.active {
     top: 0;
     max-width: 800px;
@@ -397,6 +399,7 @@ body::after {
     z-index: 2;
     flex: 0 0 auto;
 }
+
 .mySlides.second {
     top: 0;
     bottom: 10%;
@@ -430,6 +433,7 @@ body::after {
     right: 12%;
     z-index: 7;
 }
+
 /* Number text (1/2 etc) */
 .numbertext {
     display: flex;
@@ -443,9 +447,11 @@ body::after {
     margin-top: -7%;
     z-index: 5;
 }
+
 .non-active-number {
     opacity: 0.5;
 }
+
 .active-number {
     transform: scale(1.5);
 }
@@ -459,6 +465,13 @@ body::after {
     animation-name: fade-second;
     animation-duration: 1.5s;
 }
+
+/* Slide animation */
+.slide-left {
+    animation-name: slide-left;
+    animation-duration: 1s;
+}
+
 .pop-up {
     animation-name: pop-up;
     animation-duration: 0.3s;
@@ -565,6 +578,7 @@ body::after {
        opacity: 1
    }
 }
+
 @keyframes fade-second {
     from {
        opacity: 1
@@ -573,6 +587,27 @@ body::after {
        opacity: 0.6
    }
 }
+
+@keyframes slide-left {
+    from {
+        transform: translateX(20%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slide-left-second {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0.6;
+        transform: translateX(-100%);
+    }
+}
+
 @keyframes pop-up {
     from {
        scale: 0
