@@ -184,7 +184,7 @@ getActiveCamera();
 getActivePrinter();
 
 buttonOpen.addEventListener("click", async () => {
-  if (!selectedCamera && !selectedPrinter) {
+  if (!selectedCamera || !selectedPrinter) {
     toast.innerHTML = "You have not configured the camera and printer.";
     showToast();
     return;

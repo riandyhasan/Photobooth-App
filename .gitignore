@@ -132,5 +132,8 @@ dist
 # Mac
 .DS_Store
 
+# Export
 .exports
 milio-win32-x64
+milio-app
+*.zip
