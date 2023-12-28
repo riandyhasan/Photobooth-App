@@ -56,6 +56,7 @@ let totalPayment = 0;
 let paymentStatus = "unpaid";
 let discountId = [];
 let photos = [];
+let printQt = 1;
 
 if (!transaction) {
   noDataToast();
@@ -222,6 +223,7 @@ async function loadPayment() {
     name = data.transaction.user_name;
     subtotal.innerHTML = formatRupiah(data.transaction.total);
     quantity.innerHTML = data.transaction.quantity + " Pax";
+    printQt = data?.transaction?.quantity ?? 1;
     let discTotal = 0;
     if (data?.transaction?.discount_id) {
       const discountData = await getDiscountDetail(
@@ -378,14 +380,14 @@ async function printPhoto() {
     var options = {
       silent: true,
       color: true,
-      printBackground: printerName,
-      deviceName: selectedPrinter,
+      printBackground: false,
+      deviceName: printerName,
       margin: {
         marginType: "printableArea",
       },
       landscape: false,
       pagesPerSheet: 1,
-      copies: 1,
+      copies: printQt,
     };
 
     const base64Image = photos[slideIndex - 1];
