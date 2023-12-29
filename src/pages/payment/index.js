@@ -430,6 +430,7 @@ async function printPhoto() {
     </body>`;
 
     await printWindow.loadURL(htmlContent);
+    const pdfPath = './temp.pdf';
     printWindow.webContents.printToPDF({preferCSSPageSize: true}).then(data => {
       fs.writeFile(pdfPath, data, (error) => {
         if (error) throw error
@@ -437,6 +438,7 @@ async function printPhoto() {
         const options = {
           printer: printerName,
           paperSize: "PR (4x6)",
+          silent: true,
           copies: printQt
         };
         print(pdfPath, options)
