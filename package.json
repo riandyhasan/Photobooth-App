@@ -26,6 +26,7 @@
     "html5-qrcode": "^2.3.8",
     "jquery": "^3.7.1",
     "node-printer": "^1.0.4",
+    "pdf-to-printer": "^5.6.0",
     "qrcode": "^1.5.3",
     "qrcode-reader": "^1.0.4",
     "zuzel-printer": "^1.0.4"
@@ -78,7 +79,7 @@
       "./build/**/*",
       "./dist/**/*",
       "./node_modules/**/*",
-      "./src/**/*",       
+      "./src/**/*",
       "*.js"
     ],
     "directories": {

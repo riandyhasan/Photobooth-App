@@ -1,4 +1,6 @@
 const { Html5QrcodeScanType, Html5Qrcode } = require("html5-qrcode");
+const { getPrinters } = require("pdf-to-printer");
+
 const {
   closeStation,
 } = require("../../services/admin-api");
@@ -78,10 +80,11 @@ async function getActiveCamera() {
 }
 
 async function getActivePrinter() {
-  const printers = await wnd.webContents.getPrintersAsync();
+  // const printers = await wnd.webContents.getPrintersAsync();
+  const printers = await getPrinters();
   if (printers.length > 0) {
     printers.forEach((device) => {
-      printerSelection += `<option value="${device.name}">${device.displayName}</option>`;
+      printerSelection += `<option value="${device.deviceId}">${device.name}</option>`;
     });
     printerSelect.innerHTML = printerSelection;
     printerSelect.value = selectedPrinter;

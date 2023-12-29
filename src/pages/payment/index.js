@@ -1,3 +1,6 @@
+const fs = require('fs')
+const { print } = require("pdf-to-printer");
+
 const {
   getTransactionDetail,
   getDiscountDetail,
@@ -377,23 +380,24 @@ async function scheduleChecks() {
 async function printPhoto() {
   try {
     const printerName = localStorage.getItem("printer");
-    var options = {
-      silent: true,
-      color: true,
-      printBackground: false,
-      deviceName: printerName,
-      margin: {
-        marginType: "printableArea",
-      },
-      landscape: false,
-      pagesPerSheet: 1,
-      copies: printQt,
-    };
+    // var options = {
+    //   silent: true,
+    //   color: true,
+    //   printBackground: false,
+    //   deviceName: printerName,
+    //   margin: {
+    //     marginType: "printableArea",
+    //   },
+    //   landscape: false,
+    //   pagesPerSheet: 1,
+    //   copies: printQt,
+    // };
 
     const base64Image = photos[slideIndex - 1];
 
     let printWindow = new BrowserWindow({
-      useContentSize: true,
+      width: 400,
+      height: 600,
       show: false,
     });
 
@@ -404,13 +408,20 @@ async function printPhoto() {
     @page {
       size: 4in 6in; /* Set the page size to 4x6 inches */
       margin: 0;
+      width: 4in;
+      height: 6in;
     }
     img {
       page-break-before: always;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
     }
   </style>
     </head> 
@@ -419,19 +430,42 @@ async function printPhoto() {
     </body>`;
 
     await printWindow.loadURL(htmlContent);
+    printWindow.webContents.printToPDF({preferCSSPageSize: true}).then(data => {
+      fs.writeFile(pdfPath, data, (error) => {
+        if (error) throw error
+        console.log(`Wrote PDF successfully to ${pdfPath}`)
+        const options = {
+          printer: printerName,
+          paperSize: "PR (4x6)",
+          copies: printQt
+        };
+        print(pdfPath, options)
+          .then(async () => {
+            const stationID = localStorage.getItem("stationID");
+            await printPaper(stationID);
+            printing.classList.remove("show");
+            const userTy = document.querySelector("ty-name");
+            userTy.innerHTML = name;
+            ty.classList.add("show");
+            setTimeout(function () {
+              window.location.href = `../scan/index.html`;
+            }, 1000);
 
-    printWindow.webContents.print(options, async (success, failureReason) => {
-      if (!success) console.log(failureReason);
-      const stationID = localStorage.getItem("stationID");
-      await printPaper(stationID);
-      printing.classList.remove("show");
-      const userTy = document.querySelector("ty-name");
-      userTy.innerHTML = name;
-      ty.classList.add("show");
-      setTimeout(function () {
-        window.location.href = `../scan/index.html`;
-      }, 1000);
-    });
+            fs.unlink(pdfPath, (err) => {
+              if (err) {
+                console.error(`Failed to delete PDF ${pdfPath}: `, err);
+              } else {
+                console.log(`Deleted PDF ${pdfPath} after printing`);
+              }
+            });
+          })
+          .catch(printError => {
+            console.error(`Failed to print ${pdfPath}: `, printError);
+          });
+        })
+    }).catch(error => {
+      console.log(`Failed to write PDF to ${pdfPath}: `, error)
+    })
   } catch (err) {}
 }
 
