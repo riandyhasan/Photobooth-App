@@ -246,7 +246,9 @@ body::after {
 
 .qris-modal-content {
     background-color: #DB2662;
-    margin: 15% auto;
+    margin: 0% auto;
+    margin-top: 11.5% !important;
+    /* margin-bottom: 12.5% !important; */
     width: 470px;
     border-radius: 20px;
     display: flex;

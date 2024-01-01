@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { print } = require("pdf-to-printer");
+const pdfPrint = require("pdf-to-printer").print;
 
 const {
   getTransactionDetail,
@@ -108,6 +108,15 @@ function paymentFailed() {
     toast.className = toast.className.replace("show", "");
   }, 1200);
 }
+
+function printFailed() {
+  toast.innerHTML = "Printing failed, please contact admin.";
+  toast.className = "show";
+  setTimeout(function () {
+    toast.className = toast.className.replace("show", "");
+  }, 1200);
+}
+
 
 function noDataToast() {
   toast.innerHTML = "Data not found.";
@@ -267,7 +276,7 @@ async function loadPayment() {
     for (let idx = 0; idx < pl; idx++) {
       const image = await downloadFileAsBlob(prints[idx]["drive_id"]);
       slide.innerHTML += generateSlideImage(pl, idx, image);
-      photos.push(image);
+      photos.push(`data:image/png;base64,${image}`);
     }
     showSlides(1);
   } catch (e) {
@@ -380,19 +389,6 @@ async function scheduleChecks() {
 async function printPhoto() {
   try {
     const printerName = localStorage.getItem("printer");
-    // var options = {
-    //   silent: true,
-    //   color: true,
-    //   printBackground: false,
-    //   deviceName: printerName,
-    //   margin: {
-    //     marginType: "printableArea",
-    //   },
-    //   landscape: false,
-    //   pagesPerSheet: 1,
-    //   copies: printQt,
-    // };
-
     const base64Image = photos[slideIndex - 1];
 
     let printWindow = new BrowserWindow({
@@ -415,7 +411,7 @@ async function printPhoto() {
       page-break-before: always;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     body {
       margin: 0;
@@ -431,44 +427,43 @@ async function printPhoto() {
 
     await printWindow.loadURL(htmlContent);
     const pdfPath = './temp.pdf';
-    printWindow.webContents.printToPDF({preferCSSPageSize: true}).then(data => {
-      fs.writeFile(pdfPath, data, (error) => {
-        if (error) throw error
-        console.log(`Wrote PDF successfully to ${pdfPath}`)
-        const options = {
-          printer: printerName,
-          paperSize: "PR (4x6)",
-          silent: true,
-          copies: printQt
-        };
-        print(pdfPath, options)
-          .then(async () => {
-            const stationID = localStorage.getItem("stationID");
-            await printPaper(stationID);
-            printing.classList.remove("show");
-            const userTy = document.querySelector("ty-name");
-            userTy.innerHTML = name;
-            ty.classList.add("show");
-            setTimeout(function () {
-              window.location.href = `../scan/index.html`;
-            }, 1000);
+    const pdfData = await printWindow.webContents.printToPDF({preferCSSPageSize: true});
+    await fs.promises.writeFile(pdfPath, pdfData);
+    console.log(`Wrote PDF successfully to ${pdfPath}`);
 
-            fs.unlink(pdfPath, (err) => {
-              if (err) {
-                console.error(`Failed to delete PDF ${pdfPath}: `, err);
-              } else {
-                console.log(`Deleted PDF ${pdfPath} after printing`);
-              }
-            });
-          })
-          .catch(printError => {
-            console.error(`Failed to print ${pdfPath}: `, printError);
-          });
-        })
-    }).catch(error => {
-      console.log(`Failed to write PDF to ${pdfPath}: `, error)
-    })
-  } catch (err) {}
+    const options = {
+      printer: printerName,
+      paperSize: "PR (4x6)",
+      silent: true,
+      copies: printQt
+    };
+    // Print photo
+    await pdfPrint(pdfPath, options);
+
+    // Update in the 
+    const stationID = localStorage.getItem("stationID");
+    await printPaper(stationID, printQt);
+
+    // Add waiting time
+    const printingTime = 20000 * printQt;
+    await new Promise(resolve => setTimeout(resolve, printingTime));
+
+    await fs.promises.unlink(pdfPath);
+    printing.classList.remove("show");
+
+    // Thank you message
+    const userTy = document.querySelector("ty-name");
+    userTy.innerHTML = name;
+    ty.classList.add("show");
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    window.location.href = `../scan/index.html`;
+  } catch (err) {
+    console.log(err);
+    printFailed();
+    printing.classList.remove("show");
+  }
 }
 
 loadPayment();
@@ -554,7 +549,7 @@ print.addEventListener("click", async () => {
     loader.style.display = "none";
     await scheduleChecks();
   }
-  qr.innerHTML += `<img src="${qrImage}" />`;
+  qr.innerHTML = `<img src="${qrImage}" />`;
   modal.classList.add("show");
 });
 

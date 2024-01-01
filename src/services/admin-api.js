@@ -82,9 +82,9 @@ async function closeStation(id) {
   }
 }
 
-async function printPaper(id) {
+async function printPaper(id,prints) {
   try {
-    const response = await axios.put(`${baseUrl}/station/print/${id}`, null, {
+    const response = await axios.put(`${baseUrl}/station/print/${id}?prints=${prints}`, null, {
       headers: headers,
     });
     if (response.status == 200) {
