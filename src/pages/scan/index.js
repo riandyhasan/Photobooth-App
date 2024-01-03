@@ -56,6 +56,7 @@ async function confirmClose() {
     if (choice.response === 0) {
       const stationID = localStorage.getItem("stationID");
       await closeStation(stationID);
+      wnd.setClosable(true);
       wnd.close();
     }
   } catch (e) {

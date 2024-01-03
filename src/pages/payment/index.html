@@ -12,7 +12,7 @@
 
      <!-- Loader -->
      <div id="loader" class="loader-container">
-      <div class="dots-loading">
+      <div class="dots-loading" id="loader-content">
         <div>
           <span class="dots"></span>
           <span class="dots"></span>
@@ -54,7 +54,7 @@
     <div id="printing-modal" class="printing-modal">
 
       <!-- Modal content -->
-      <div class="dots-loading">
+      <div class="dots-loading" style="top: 10%">
         <div>
           <span class="dots"></span>
           <span class="dots"></span>
@@ -72,8 +72,10 @@
 
       <img src="../../assets/images/top.svg" class="top-asset" />
       <div class="layout">
-         <div class="content">
+         <div class="content" id="content">
             <!-- Slideshow container -->
+            <div class="numbertext" id="slide-number">
+            </div>
             <div class="slideshow-container" id="slide">
                <!-- Full-width images with number and caption text -->
                
@@ -89,7 +91,7 @@
               <div>Total Print</div>
               <div id="quantity">0 Pax</div>
             </div>
-            <div class="line" style="height: 1.5px;"></div>
+            <div class="line" style="height: 1.7px;"></div>
             <div class="payment-row" style="margin-top: 1rem;">
               <div>Subtotal</div>
               <div id="subtotal">Rp0</div>

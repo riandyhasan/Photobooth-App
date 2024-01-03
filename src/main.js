@@ -8,7 +8,9 @@ function createWindow() {
     height,
     autoHideMenuBar: true,
     frame: false,
-    icon: './src/assets/images/logo.ico',
+    resizable: false,
+    closable: false,
+    icon: './src/assets/images/logo.png',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

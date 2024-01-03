@@ -1,27 +1,100 @@
 {
-  "name": "photobooth-app",
-  "productName": "Milio Photobooth App",
-  "description": "An desktop app to print your photo",
-  "version": "1.0.0",
+  "name": "milio",
+  "productName": "Milio",
+  "version": "1.0.4",
+  "description": "Milio photobooth app",
   "main": "./src/main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "electron-packager . milio --platform=win32 --arch=x64 --overwrite",
-    "dist": "electron-builder --win"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "make-wnd": "electron-forge make --platform win32",
+    "publish": "electron-forge publish --platform win32",
+    "lint": "echo \"No linting configured\""
   },
-  "repository": "git@github.com:riandyhasan/Photobooth-App.git",
-  "author": "riandyhasan <riandyhsn@gmail.com>",
+  "keywords": [],
+  "author": {
+    "name": "Yandy",
+    "email": "riandyhsn@gmail.com"
+  },
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin", "win32"
+          ],
+          "config": {
+          }
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "yarn",
+        "executableName": "Milio",
+        "icon": "./src/assets/images/logo.ico"
+      },
+      "electronWinstallerConfig": {
+        "name": "Milio",
+        "icon": "./src/assets/images/logo.ico"
+      },
+      "electronInstallerDebian": {
+        "icon": "./src/assets/images/logo.ico",
+        "categories": [
+          "Utility"
+        ],
+        "homepage": "https://miliostation.com"
+      },
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "milio"
+      }
+    }
+  },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^27.0.0",
-    "electron-builder": "^24.6.4",
-    "electron-packager": "^17.1.2"
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
+    "@electron-forge/plugin-webpack": "^7.2.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "css-loader": "^6.0.0",
+    "electron": "28.1.0",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.0.0"
   },
   "dependencies": {
     "@electron/remote": "^2.1.1",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
+    "electron-squirrel-startup": "^1.0.0",
     "googleapis": "^128.0.0",
     "html5-qrcode": "^2.3.8",
     "jquery": "^3.7.1",
@@ -30,70 +103,5 @@
     "qrcode": "^1.5.3",
     "qrcode-reader": "^1.0.4",
     "zuzel-printer": "^1.0.4"
-  },
-  "build": {
-    "appId": "com.milio.app",
-    "productName": "Milio Photobooth App",
-    "copyright": "Copyright © 2023 Milio",
-    "mac": {
-      "icon": "./src/assets/images/logo.ico",
-      "target": [
-        "zip",
-        "dmg"
-      ],
-      "publish": [
-        "github"
-      ]
-    },
-    "win": {
-      "icon": "./src/assets/images/logo.ico",
-      "publisherName": "Milio",
-      "publish": [
-        "github"
-      ],
-      "target": [
-        "nsis"
-      ]
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "tar.gz"
-      ]
-    },
-    "dmg": {
-      "icon": "./src/assets/images/logo.png",
-      "title": "Milio Photobooth App"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "installerIcon": "./src/assets/images/logo.ico",
-      "createDesktopShortcut": false,
-      "createStartMenuShortcut": false,
-      "installerHeaderIcon": "./src/assets/images/logo.ico",
-      "deleteAppDataOnUninstall": true
-    },
-    "files": [
-      "./build/**/*",
-      "./dist/**/*",
-      "./node_modules/**/*",
-      "./src/**/*",
-      "*.js"
-    ],
-    "directories": {
-      "buildResources": "src"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "riandyhasan",
-        "repo": "Photobooth-App",
-        "vPrefixedTagName": true,
-        "private": false,
-        "releaseType": "draft"
-      }
-    ]
   }
 }

@@ -130,6 +130,7 @@ body::after {
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin-top: 230px;
 }
 
 .merch-images {
@@ -163,7 +164,7 @@ body::after {
 
 .dots-loading {
     position: absolute;
-    top: 10%;
+    top: 45%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -237,8 +238,10 @@ body::after {
 .close {
     position: absolute;
     left: 20px;
-    top: 20px;
+    margin-top: 5px;
+    /* top: 20px; */
     cursor: pointer;
+    z-index: 65;
 }
 .close img {
     width: 25px;
@@ -480,8 +483,8 @@ body::after {
     font-size: 12px;
     position: absolute;
     top: 0;
-    left: 45%;
-    margin-top: -7%;
+    left: 32.5%;
+    margin-top: -5%;
     z-index: 5;
 }
 
@@ -491,6 +494,14 @@ body::after {
 
 .active-number {
     transform: scale(1.5);
+}
+
+.one-slide {
+    padding-left: 4rem !important;
+}
+
+.one-number {
+    left: 43.5% !important; 
 }
 
 /* Fading animation */
@@ -525,7 +536,7 @@ body::after {
     justify-content: center;
     align-items: center;
     background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.95);
+    background-color: rgba(0,0,0,0.75);
     transition: opacity 1s ease-in-out;
 }
 

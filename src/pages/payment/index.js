@@ -43,6 +43,7 @@ const total = document.querySelector("#total");
 const couponCode = document.querySelector("#coupon");
 const apply = document.querySelector("#apply-code");
 const loadingMsg = document.querySelector("#loading-msg");
+const slideNumber = document.querySelector("#slide-number");
 
 // Global constants
 const params = new URLSearchParams(location.search);
@@ -60,6 +61,7 @@ let paymentStatus = "unpaid";
 let discountId = [];
 let photos = [];
 let printQt = 1;
+let totalImages = 0;
 
 if (!transaction) {
   noDataToast();
@@ -74,20 +76,9 @@ function changeBackgroundImage(newImageUrl) {
   }
 }
 
-function generateSlideImage(count, idx, src) {
-  let numbers = ``;
-  for (let i = 0; i < count; i++) {
-    numbers += `
-    <div class="${i == idx ? "active-number" : "non-active-number"}">
-      ${i + 1}
-    </div>
-    `;
-  }
+function generateSlideImage(src) {
   return `
     <div class="mySlides fade">
-    <div class="numbertext">
-      ${numbers}
-    </div>
       <img src="data:image/jpeg;base64,${src}" style="width:100%">
   </div>
   `;
@@ -124,7 +115,7 @@ function noDataToast() {
 
   setTimeout(function () {
     toast.className = toast.className.replace("show", "");
-    window.location.href = `../scan/index.html`;
+    // window.location.href = `../scan/index.html`;
   }, 1200);
 }
 
@@ -177,6 +168,22 @@ function currentSlide(n) {
   showSlides((slideIndex = n));
 }
 
+function showSlideNumber(idx) {
+  let numbers = ``;
+  let start = Math.max(idx - 1, 0);
+  let end = Math.min(idx + 1, totalImages - 1);
+
+  for (let i = start; i <= end; i++) {
+    numbers += `
+    <div class="${i === idx ? "active-number" : "non-active-number"}">
+      ${i + 1}
+    </div>
+    `;
+  }
+  slideNumber.innerHTML = numbers;
+}
+
+
 function showSlides(n) {
   let slides = document.getElementsByClassName("mySlides");
   if (slides.length > 0) {
@@ -194,6 +201,7 @@ function showSlides(n) {
     if (next > slides.length) {
       next = 1;
     }
+    showSlideNumber(slideIndex - 1);
     slides[slideIndex - 1].classList.add("active");
     slides[slideIndex - 1].classList.add("slide-left");
     if (slides.length > 1) {
@@ -225,7 +233,6 @@ async function loadMerch() {
 }
 
 async function loadPayment() {
-  loadingMsg.innerHTML = 'Preparing your photo'
   try {
     const data = await getTransactionDetail(transaction);
     if (!data) {
@@ -269,13 +276,19 @@ async function loadPayment() {
     `;
     const { downloadFileAsBlob } = await initDrive();
     const prints = data?.prints ?? [];
-    let pl = prints?.length ?? 0;
+    const pl = prints?.length ?? 0;
+    if (pl == 1) {
+      const content = document.querySelector("#content");
+      content.classList.add("one-slide");
+      slideNumber.classList.add("one-number");
+    }
+    totalImages = pl;
     if (pl < 2) {
       next.style.display = "none";
     }
     for (let idx = 0; idx < pl; idx++) {
       const image = await downloadFileAsBlob(prints[idx]["drive_id"]);
-      slide.innerHTML += generateSlideImage(pl, idx, image);
+      slide.innerHTML += generateSlideImage(image);
       photos.push(`data:image/png;base64,${image}`);
     }
     showSlides(1);
@@ -452,7 +465,7 @@ async function printPhoto() {
     printing.classList.remove("show");
 
     // Thank you message
-    const userTy = document.querySelector("ty-name");
+    const userTy = document.querySelector("#ty-name");
     userTy.innerHTML = name;
     ty.classList.add("show");
 
